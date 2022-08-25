@@ -17,9 +17,14 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseCors(it => it.SetIsOriginAllowed(a => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapFallbackToFile("rxjs/{*path:nonfile}", "/rxjs/index.html");
 
 app.Run();

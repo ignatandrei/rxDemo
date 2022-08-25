@@ -2,6 +2,7 @@ import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 import { OperatorsUnary, unaryOperators } from './classes/unaryOperators';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { OperatorsUnary, unaryOperators } from './classes/unaryOperators';
 })
 export class ListsService {
 
-  baseUrl: string = "http://localhost:5292/";
+  baseUrl: string = environment.url;
   
   constructor(private http: HttpClient) { }
 
@@ -18,8 +19,8 @@ export class ListsService {
     return this.http.get<KeyValuePairNumber[]>(this.baseUrl + "Lists/GetNumbers/" + fromNumber + "/" + count + "/" + delaySec);
   }
 
-  public GetNumbersObservable(fromNumber: number, count: number, delaySec: number): Observable<KeyValuePairNumber> {
-    var url = (this.baseUrl + "Lists/GetNumbers/" + fromNumber + "/" + count + "/" + delaySec);;
+  public GetNumbersObservable(fromNumber: number, count: number,repeat:number, delaySec: number): Observable<KeyValuePairNumber> {
+    var url = (this.baseUrl + "Lists/GetNumbers/" + fromNumber + "/" + count + "/" + repeat +"/"+ delaySec);;
     return this.fromFetchStream(url);
   }
 

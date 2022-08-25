@@ -23,10 +23,10 @@ namespace RxJSDemoWebAPI.Controllers
         {
             return this.lists.GetTicks(millisecondsDelay, cancellationToken);
         }
-        [HttpGet("{startFrom?}/{count?}/{millisecondsDelay?}")]
-        public IAsyncEnumerable<KeyValuePair<long, string>> GetNumbers(long? startFrom, long? count, int? millisecondsDelay, CancellationToken cancellationToken)
+        [HttpGet("{startFrom?}/{count?}/{repeat?}/{millisecondsDelay?}")]
+        public IAsyncEnumerable<KeyValuePair<long, string>> GetNumbers(long? startFrom, long? count, long? repeat,int? millisecondsDelay, CancellationToken cancellationToken)
         {
-            return this.lists.GetNumbers(startFrom, count,millisecondsDelay, cancellationToken);
+            return this.lists.GetNumbers(startFrom, count, repeat,millisecondsDelay, cancellationToken);
         }
     }
 }

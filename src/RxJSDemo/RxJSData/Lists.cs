@@ -16,19 +16,23 @@ namespace RxJSData
             }
         }
 
-        public async IAsyncEnumerable<KeyValuePair<long, string>> GetNumbers(long? startFrom, long? count, int? millisecondsDelay, [EnumeratorCancellation] CancellationToken cancellationToken)
+        public async IAsyncEnumerable<KeyValuePair<long, string>> GetNumbers(long? startFrom, long? count,long? repeat ,int? millisecondsDelay, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             long nr = 0;
             millisecondsDelay ??= 3_000;
             startFrom ??= 0;
             count ??= 10;
+            repeat ??= 1;
 
             while (nr<=count)
             {
-
-                yield return new KeyValuePair<long, string>(++nr, startFrom.Value.ToString());
+                for (int i = 0; i < repeat; i++)
+                {
+                    yield return new KeyValuePair<long, string>(++nr, startFrom.Value.ToString());
+                    await Task.Delay(millisecondsDelay.Value, cancellationToken);
+                }
                 startFrom++;
-                await Task.Delay(millisecondsDelay.Value, cancellationToken);
+                //await Task.Delay(millisecondsDelay.Value, cancellationToken);
             }
         }
     }

@@ -36,7 +36,13 @@ export class AppComponent {
     }
     this._numberOperators=value;
   }
-
+  public IncrementOperators() : void{
+    this.numberOperators++;
+  }
+  public DeleteOperator(i: number) {
+    this._numberOperators--;
+    this.whatOperator.splice(i, 1);
+  }
   constructor(public list: ListsService) {
     this.numberOperators=1;
   }
@@ -56,7 +62,7 @@ export class AppComponent {
     //   }
     // );
 
-    var obs= this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.delaySec*1000)    
+    var obs= this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count,this.startNumbers.repeat, this.startNumbers.delaySec*1000)    
     .subscribe({
       next: (it: KeyValuePairNumber) => {
         this.dataFor = [...this.dataFor, it];
@@ -75,7 +81,7 @@ export class AppComponent {
       }
     })
 
-    var obs2=this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.delaySec*1000);
+      var obs2 = this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.repeat, this.startNumbers.delaySec*1000);
     
     for(var operatorNr =0;operatorNr<this.numberOperators;operatorNr++){
       var op = this.whatOperator[operatorNr];

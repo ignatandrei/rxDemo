@@ -7,7 +7,10 @@ import {
   skipLast,
   take,
   takeLast,
-  elementAt
+  elementAt,
+  distinct,
+  distinctUntilChanged,
+  startWith
 } from 'rxjs';
 import { KeyValuePairNumber } from '../lists.service';
 
@@ -20,7 +23,11 @@ export enum OperatorsUnary {
   SkipValuesLast = 'skipLast',
   TakeFromBegin = 'take',
   TakeFromLast = 'takeLast',
-  ElementAt="elementAt"
+  ElementAt = "elementAt",
+  Distinct = "distinct",
+  DistinctUntilChanged = "distinctUntilChanged",
+  startWith = "startWith"
+
 }
 export class unaryOperators {
   public operatorToApply: OperatorsUnary = OperatorsUnary.None;
@@ -103,12 +110,30 @@ export class unaryOperators {
                 )
               )
             );
-    
+      case OperatorsUnary.Distinct:
+        return obs.pipe(
+          distinct(it=>it.value)          
+        );
+
+      case OperatorsUnary.DistinctUntilChanged:
+        return obs.pipe(
+          distinctUntilChanged((a,b)=>a.value==b.value)
+        );
+
+      case OperatorsUnary.startWith:
+        return obs.pipe(
+          startWith(unaryOperators.getNewKVP(valueToApply))        
+        );
       default:
         return obs;
     }
   }
-
+  private static getNewKVP(value: string) {
+    var kvp = new KeyValuePairNumber();
+    kvp.key = -100;
+    kvp.value = value;
+    return kvp;
+  }
   public functionsFromOperator(operatorToApply: OperatorsUnary): string[] {
     switch (operatorToApply) {
       case OperatorsUnary.ChangeValues:
@@ -125,6 +150,12 @@ export class unaryOperators {
         return ['numberToSkip'];
     case OperatorsUnary.ElementAt:
         return ['position'];
+      case OperatorsUnary.startWith:
+        return ['numberToTake'];
+    case OperatorsUnary.Distinct:
+        return [];
+    case OperatorsUnary.DistinctUntilChanged:
+        return [];
     default:
         return [];
     }

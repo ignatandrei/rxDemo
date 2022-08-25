@@ -1,30 +1,33 @@
 From a list of observable (numbers) from
 <input [(ngModel)]="startNumbers.fromNumber" /> count
-<input [(ngModel)]="startNumbers.count" /> delay
+<input [(ngModel)]="startNumbers.count" /> repeat
+<input [(ngModel)]="startNumbers.repeat" /> delay
 <input [(ngModel)]="startNumbers.delaySec" />
 
 <br />
-Number of operators:
-<input [(ngModel)]="numberOperators" /> 
+Number of operators {{numberOperators}}
 
+<button value="Add!" (click)="IncrementOperators()">AddOperator</button>
 <br />
 
 <div *ngFor="let op of whatOperator;let i=index">
-Operator {{i+1}}
+  Operator {{i+1}}
 
-<select [(ngModel)]="op.operatorToApply">
-  <option *ngFor="let name of operators" [value]="name"> {{ name }} </option>
-</select>
+  <select [(ngModel)]="op.operatorToApply">
+    <option *ngFor="let name of operators" [value]="name"> {{ name }} </option>
+  </select>
 
-<select [(ngModel)]="op.functionToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0">
-    
+  <select [(ngModel)]="op.functionToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0">
+
     <option *ngFor="let name of op.functionsFromOperator(op.operatorToApply)" [value]="name"> {{ name }} </option>
 
-</select>
+  </select>
 
-<input [(ngModel)]="op.valueToApply" />
-The RXJS is <b><a target="_blank" href="https://rxjs.dev/api/operators/{{op.operatorToApply}}">{{op.operatorToApply}}</a></b>
-<!-- add http://introtorx.com/Content/v1.0.10621.0/05_Filtering.html#SkipLastTakeLast -->
+  <input [(ngModel)]="op.valueToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0" />
+  The RXJS is <b><a target="_blank" href="https://rxjs.dev/api/operators/{{op.operatorToApply}}">{{op.operatorToApply}}</a></b>
+  <!-- add http://introtorx.com/Content/v1.0.10621.0/05_Filtering.html#SkipLastTakeLast -->
+  <button (click)="DeleteOperator(i)" *ngIf="numberOperators>1">Delete</button>
+
 </div>
 
 <br />
@@ -33,7 +36,5 @@ The RXJS is <b><a target="_blank" href="https://rxjs.dev/api/operators/{{op.oper
 
 <app-rx-visualizer [rxName]="original" [data]="dataFor"></app-rx-visualizer>
 
-<app-rx-visualizer
-  [rxName]="operator"
-  [data]="dataForOneOperator"
-></app-rx-visualizer>
+<app-rx-visualizer [rxName]="operator"
+                   [data]="dataForOneOperator"></app-rx-visualizer>
