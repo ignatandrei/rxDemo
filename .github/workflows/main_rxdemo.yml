@@ -30,6 +30,7 @@ jobs:
       - name: build angular
         run: |
           cd src
+          cd RxJSDemo
           cd RxjsAng
           npm i
           npm run build
