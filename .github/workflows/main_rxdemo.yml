@@ -26,13 +26,27 @@ jobs:
         with:
           dotnet-version: '6.0.x'
           include-prerelease: true
+      
+      - name: build angular
+        run: |
+          cd src
+          cd RxjsAng
+          npm i
+          npm run build
 
       - name: Build with dotnet
         run: |
-          dotnet build --configuration Release
-
+          cd src
+          cd RxJSDemo
+          dotnet tool restore
+          dotnet r build
+          
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: |
+          cd src
+          cd RxJSDemo
+          cd RxJSDemoWebAPI
+          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
