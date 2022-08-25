@@ -37,7 +37,8 @@ jobs:
             cd RxjsAng
             npm i
             npm run build
-            Copy-Item .\dist\RxjsAng ..\RxJSDemoWebAPI\wwwroot\
+            gci .\dist\RxjsAng\*.*
+            Copy-Item .\dist\RxjsAng\*.* ..\RxJSDemoWebAPI\wwwroot\rxjsAng\
 
 
 
