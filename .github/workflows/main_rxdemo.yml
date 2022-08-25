@@ -45,9 +45,8 @@ jobs:
         run: |
           cd src
           cd RxJSDemo
-          dotnet tool restore
-          dotnet build
-          dotnet r build
+          dotnet tool restore          
+          dotnet r  buildWebApi
           
       - name: dotnet publish
         run: |

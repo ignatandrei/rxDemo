@@ -1,6 +1,7 @@
 {
   "scripts": {
     "build": "dotnet build",
+    "buildWebApi":"dotnet build RxJSDemoWebAPI/RxJSDemoWebAPI.csproj",
     "pretest": "dotnet r build",
     "test": "dotnet test --configuration Release",
     "licences": "dotnet dotnet-project-licenses -i .",
