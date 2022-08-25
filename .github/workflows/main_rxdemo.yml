@@ -28,18 +28,25 @@ jobs:
           include-prerelease: true
       
       - name: build angular
+        shell: pwsh
         run: |
-          cd src
-          cd RxJSDemo
-          cd RxjsAng
-          npm i
-          npm run build
+            node -v
+            npm -v
+            cd src
+            cd RxJSDemo
+            cd RxjsAng
+            npm i
+            npm run build
+            Copy-Item .\dist\RxjsAng ..\RxJSDemoWebAPI\wwwroot\
+
+
 
       - name: Build with dotnet
         run: |
           cd src
           cd RxJSDemo
           dotnet tool restore
+          dotnet build
           dotnet r build
           
       - name: dotnet publish
