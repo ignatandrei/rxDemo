@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve -o",
     "build": "ng build",
+    "buildAzure":"ng build --base-href /rxjsAng/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

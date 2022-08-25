@@ -25,6 +25,6 @@ app.UseCors(it => it.SetIsOriginAllowed(a => true).AllowAnyHeader().AllowAnyMeth
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapFallbackToFile("rxjs/{*path:nonfile}", "/rxjs/index.html");
+app.MapFallbackToFile("rxjsAng/{*path:nonfile}", "/rxjsAng/index.html");
 
 app.Run();

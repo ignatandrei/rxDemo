@@ -36,7 +36,7 @@ jobs:
             cd RxJSDemo
             cd RxjsAng
             npm i
-            npm run build
+            npm run buildAzure
             gci .\dist\RxjsAng\*.*
             Copy-Item .\dist\RxjsAng\*.* ..\RxJSDemoWebAPI\wwwroot\rxjsAng\
 
