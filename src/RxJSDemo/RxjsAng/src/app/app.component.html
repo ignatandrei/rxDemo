@@ -1,16 +1,17 @@
+<input id='search-box' />
 From a list of observable (numbers) from
-<input [(ngModel)]="startNumbers.fromNumber" /> count
-<input [(ngModel)]="startNumbers.count" /> repeat
-<input [(ngModel)]="startNumbers.repeat" /> delay
-<input [(ngModel)]="startNumbers.delaySec" />
+<input [(ngModel)]="obs.startNumbers.fromNumber" /> count
+<input [(ngModel)]="obs.startNumbers.count" /> repeat
+<input [(ngModel)]="obs.startNumbers.repeat" /> delay
+<input [(ngModel)]="obs.startNumbers.delaySec" />
 
 <br />
-Number of operators {{numberOperators}}
+Number of operators {{obs.numberOperators}}
 
-<button value="Add!" (click)="IncrementOperators()">AddOperator</button>
+<button value="Add!" (click)="obs.IncrementOperators()">AddOperator</button>
 <br />
 
-<div *ngFor="let op of whatOperator;let i=index">
+<div *ngFor="let op of obs.whatOperator;let i=index">
   Operator {{i+1}}
 
   <select [(ngModel)]="op.operatorToApply">
@@ -26,7 +27,7 @@ Number of operators {{numberOperators}}
   <input [(ngModel)]="op.valueToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0" />
   The RXJS is <b><a target="_blank" href="https://rxjs.dev/api/operators/{{op.operatorToApply}}">{{op.operatorToApply}}</a></b>
   <!-- add http://introtorx.com/Content/v1.0.10621.0/05_Filtering.html#SkipLastTakeLast -->
-  <button (click)="DeleteOperator(i)" *ngIf="numberOperators>1">Delete</button>
+  <button (click)="obs.DeleteOperator(i)" *ngIf="obs.numberOperators>1">Delete</button>
 
 </div>
 
@@ -34,7 +35,7 @@ Number of operators {{numberOperators}}
 
 <button (click)="start()">Start</button>
 
-<app-rx-visualizer [rxName]="original" [data]="dataFor"></app-rx-visualizer>
+<app-rx-visualizer [rxName]="original" [data]="obs.dataFor"></app-rx-visualizer>
 
 <app-rx-visualizer [rxName]="operator"
-                   [data]="dataForOneOperator"></app-rx-visualizer>
+                   [data]="obs.dataForOneOperator"></app-rx-visualizer>

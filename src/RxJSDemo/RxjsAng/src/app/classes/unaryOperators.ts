@@ -10,7 +10,10 @@ import {
   elementAt,
   distinct,
   distinctUntilChanged,
-  startWith
+  startWith,
+  delay,
+  debounceTime,
+  debounce
 } from 'rxjs';
 import { KeyValuePairNumber } from '../lists.service';
 
@@ -26,7 +29,9 @@ export enum OperatorsUnary {
   ElementAt = "elementAt",
   Distinct = "distinct",
   DistinctUntilChanged = "distinctUntilChanged",
-  startWith = "startWith"
+  startWith = "startWith",
+  delay = "delay",
+  debounceTime ="debounceTime"
 
 }
 export class unaryOperators {
@@ -124,6 +129,14 @@ export class unaryOperators {
         return obs.pipe(
           startWith(unaryOperators.getNewKVP(valueToApply))        
         );
+      case OperatorsUnary.delay:
+        return obs.pipe(
+          delay(parseInt( valueToApply))
+        );
+      case OperatorsUnary.debounceTime:
+        return obs.pipe(
+          debounceTime(parseInt(valueToApply))
+        );
       default:
         return obs;
     }
@@ -151,6 +164,10 @@ export class unaryOperators {
     case OperatorsUnary.ElementAt:
         return ['position'];
       case OperatorsUnary.startWith:
+        return ['numberToTake'];
+      case OperatorsUnary.delay:
+        return ['numberToTake'];
+      case OperatorsUnary.debounceTime:
         return ['numberToTake'];
     case OperatorsUnary.Distinct:
         return [];
