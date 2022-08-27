@@ -34,6 +34,7 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
 
     const element: any = this.mermaidDiv.nativeElement;
     var graphDefinition = 'graph LR ' + '\r\n';
+    graphDefinition = 'flowchart LR ' + '\r\n';
     // console.log(this.data.length);
     // console.log(this.data);
     if (this.data.length == 0) {
