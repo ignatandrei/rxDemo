@@ -44,9 +44,7 @@
 
   <button (click)="start()">Start</button>
 
-  <app-rx-visualizer [rxName]="original" [data]="obs.dataFor"></app-rx-visualizer>
+  <app-rx-visualizer [rxName]="original" [data]="obs.dataFor" [dataPiped]="obs.dataForOneOperator"></app-rx-visualizer>
 
-  <app-rx-visualizer [rxName]="operator"
-                     [data]="obs.dataForOneOperator"></app-rx-visualizer>
-
+  
 
