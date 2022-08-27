@@ -1,41 +1,52 @@
-<input id='search-box' />
-From a list of observable (numbers) from
-<input [(ngModel)]="obs.startNumbers.fromNumber" /> count
-<input [(ngModel)]="obs.startNumbers.count" /> repeat
-<input [(ngModel)]="obs.startNumbers.repeat" /> delay
-<input [(ngModel)]="obs.startNumbers.delaySec" />
 
-<br />
-Number of operators {{obs.numberOperators}}
+<ul>
+  <li *ngFor="let d of obsSer.Data.keys();let i=index">
+    <button (click)="loadExample(d)">{{d}}</button>
+  </li>
+</ul>
 
-<button value="Add!" (click)="obs.IncrementOperators()">AddOperator</button>
-<br />
 
-<div *ngFor="let op of obs.whatOperator;let i=index">
-  Operator {{i+1}}
 
-  <select [(ngModel)]="op.operatorToApply">
-    <option *ngFor="let name of operators" [value]="name"> {{ name }} </option>
-  </select>
+  <input id='search-box' />
+  From a list of observable (numbers) from
+  <input [(ngModel)]="obs.startNumbers.fromNumber" /> count
+  <input [(ngModel)]="obs.startNumbers.count" /> repeat
+  <input [(ngModel)]="obs.startNumbers.repeat" /> delay
+  <input [(ngModel)]="obs.startNumbers.delaySec" />
 
-  <select [(ngModel)]="op.functionToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0">
+  <br />
+  Number of operators {{obs.numberOperators}}
 
-    <option *ngFor="let name of op.functionsFromOperator(op.operatorToApply)" [value]="name"> {{ name }} </option>
+  <button value="Add!" (click)="obs.IncrementOperators()">AddOperator</button>
+  <br />
 
-  </select>
+  <div *ngFor="let op of obs.whatOperator;let i=index">
+    Operator {{i+1}}
 
-  <input [(ngModel)]="op.valueToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0" />
-  The RXJS is <b><a target="_blank" href="https://rxjs.dev/api/operators/{{op.operatorToApply}}">{{op.operatorToApply}}</a></b>
-  <!-- add http://introtorx.com/Content/v1.0.10621.0/05_Filtering.html#SkipLastTakeLast -->
-  <button (click)="obs.DeleteOperator(i)" *ngIf="obs.numberOperators>1">Delete</button>
+    <select [(ngModel)]="op.operatorToApply">
+      <option *ngFor="let name of operators" [value]="name"> {{ name }} </option>
+    </select>
 
-</div>
+    <select [(ngModel)]="op.functionToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0">
 
-<br />
+      <option *ngFor="let name of op.functionsFromOperator(op.operatorToApply)" [value]="name"> {{ name }} </option>
 
-<button (click)="start()">Start</button>
+    </select>
 
-<app-rx-visualizer [rxName]="original" [data]="obs.dataFor"></app-rx-visualizer>
+    <input [(ngModel)]="op.valueToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0" />
+    The RXJS is <b><a target="_blank" href="https://rxjs.dev/api/operators/{{op.operatorToApply}}">{{op.operatorToApply}}</a></b>
+    <!-- add http://introtorx.com/Content/v1.0.10621.0/05_Filtering.html#SkipLastTakeLast -->
+    <button (click)="obs.DeleteOperator(i)" *ngIf="obs.numberOperators>1">Delete</button>
 
-<app-rx-visualizer [rxName]="operator"
-                   [data]="obs.dataForOneOperator"></app-rx-visualizer>
+  </div>
+
+  <br />
+
+  <button (click)="start()">Start</button>
+
+  <app-rx-visualizer [rxName]="original" [data]="obs.dataFor"></app-rx-visualizer>
+
+  <app-rx-visualizer [rxName]="operator"
+                     [data]="obs.dataForOneOperator"></app-rx-visualizer>
+
+

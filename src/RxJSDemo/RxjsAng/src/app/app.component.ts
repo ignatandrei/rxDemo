@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { debounceTime,distinctUntilChanged,switchMap, tap, pipe, mapTo, map, Observable, first, fromEvent, filter } from 'rxjs';
+import { ObsDataSerializable } from './classes/ObsDataSerializable';
 import { ObservableData, SourceOfData } from './classes/ObservableData';
 import { exportNumbers } from './classes/obsNumbers';
 import { OperatorsUnary, unaryOperators } from './classes/unaryOperators';
@@ -15,6 +16,7 @@ export class AppComponent {
   
   public operators = Object.values(OperatorsUnary);
   public obs: ObservableData = new ObservableData();
+  public obsSer: ObsDataSerializable = new ObsDataSerializable();
   original: string = "original";
   operator: string = "operator";
     typeahead: Observable<KeyValuePairNumber>;
@@ -28,10 +30,10 @@ export class AppComponent {
   title = 'RxjsAng';
 
   public start() {
-    this.searchBox = document.getElementById('search-box') as HTMLInputElement;
-    this.obs.fromTextBox = fromEvent(this.searchBox, 'input');
-    this.obs.source = SourceOfData.fromTextBox;
-    this.obs.start();
+    //this.searchBox = document.getElementById('search-box') as HTMLInputElement;
+    //this.obs.fromTextBox = fromEvent(this.searchBox, 'input');
+    //this.obs.source = SourceOfData.fromTextBox;
+    //this.obs.start();
     //console.log(this.searchBox);
     //var x = fromEvent(this.searchBox, 'input');
     //this.typeahead=x.pipe(
@@ -48,12 +50,18 @@ export class AppComponent {
     //  tap(it => console.log(it))
     //);
     //this.typeahead.subscribe();
-    //this.obs.source = SourceOfData.netCoreGetNumbers;
-    //this.obs.start();
+    this.obs.source = SourceOfData.netCoreGetNumbers;
+    console.log(this.obs.toJson());
+    this.obs.start();
+  }
+  public loadExample(k: string) {
+    this.obs = new ObservableData(this.obsSer.Data.get(k));
+    this.obs.list = this.list;
+    this.searchBox = document.getElementById('search-box') as HTMLInputElement;
+    this.obs.fromTextBox = fromEvent(this.searchBox, 'input');
+
+    this.obs.start();
   }
   
 }
 
-function ajax(arg0: string) {
-    throw new Error('Function not implemented.');
-}

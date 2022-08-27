@@ -8,6 +8,8 @@ export enum SourceOfData {
   fromTextBox=2
 }
 export class ObservableData {
+
+  
   //region operators
   public source = SourceOfData.none;
     fromTextBox: Observable<Event>;
@@ -35,8 +37,17 @@ export class ObservableData {
     this._numberOperators = value;
   }
   //endregion
-  constructor() {
-    this.numberOperators = 1;
+  constructor(o: ObservableData = null) {
+    if (o == null) {
+      this.numberOperators = 1;
+      return;
+    }
+    this.numberOperators = o.numberOperators;
+    Object.keys(o).forEach(v => (this as any)[v] = o[v]);
+    for (var i = 0; i < this.whatOperator.length; i++) {
+      this.whatOperator[i] = new unaryOperators(this.whatOperator[i]);
+    }
+    
   }
 
   public whatOperator: unaryOperators[] = [];
@@ -45,7 +56,10 @@ export class ObservableData {
   public dataForOneOperator: KeyValuePairNumber[] = [];
   public list: ListsService;
   private startNetCoreNumbers() {
-    this.startWithObs(this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.repeat, this.startNumbers.delaySec * 1000));
+    this.startWithObs(
+      this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.repeat, this.startNumbers.delaySec * 1000),
+      this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.repeat, this.startNumbers.delaySec * 1000)
+    );
   }
   private startFromTextBoxWithFullText() {
     this.startWithObs(this.fromTextBox.pipe(
@@ -55,15 +69,26 @@ export class ObservableData {
         kvp.key = e.timeStamp;
         return kvp;
       }),
-    ));
+    ),
+
+      this.fromTextBox.pipe(
+        map(e => {
+          var kvp = new KeyValuePairNumber();
+          kvp.value = (e.target as HTMLInputElement).value;
+          kvp.key = e.timeStamp;
+          return kvp;
+        }),
+      )
+    );
   }
-  private startWithObs(obs:Observable<KeyValuePairNumber>) {
+  private startWithObs(obs:Observable<KeyValuePairNumber>, obs2: Observable<KeyValuePairNumber>) {
     var start = new KeyValuePairNumber();
     start.key = 0;
     start.finish = true;
     start.value = "Start";
     this.dataFor = [start];
     this.dataForOneOperator = [start];
+    
     obs 
       .subscribe({
         next: (it: KeyValuePairNumber) => {
@@ -83,12 +108,13 @@ export class ObservableData {
         }
       })
 
-    var obs2 = this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.repeat, this.startNumbers.delaySec * 1000);
-
+    //var obs2 = this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.repeat, this.startNumbers.delaySec * 1000);
+    console.log("nr operators" + this.numberOperators);
+    
     for (var operatorNr = 0; operatorNr < this.numberOperators; operatorNr++) {
       var op = this.whatOperator[operatorNr];
       obs2 = unaryOperators.applyPipe(obs2, op.operatorToApply, op.functionToApply, op.valueToApply);
-
+      console.log("applied " + op.operatorToApply);
     }
 
 
@@ -134,5 +160,18 @@ export class ObservableData {
     
     ;
 
+  }
+
+  public toJson(): string {
+    var json = {};
+    json["source"] = this.source;
+    json["numberOperators"] = this.numberOperators;
+    json["whatOperator"] = this.whatOperator;
+    json["startNumbers"] = this.startNumbers;
+    return JSON.stringify(json);
+  }
+
+  public static fromJSON(json: string): ObservableData {
+    return JSON.parse(json) as ObservableData;
   }
 }

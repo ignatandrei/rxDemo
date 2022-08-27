@@ -35,6 +35,13 @@ export enum OperatorsUnary {
 
 }
 export class unaryOperators {
+
+  constructor(o: unaryOperators = null) {
+    if (o == null)
+      return;
+    Object.keys(o).forEach(v => (this as any)[v] = o[v]);
+  }
+
   public operatorToApply: OperatorsUnary = OperatorsUnary.None;
 
   public functionToApply: string;
@@ -130,6 +137,7 @@ export class unaryOperators {
           startWith(unaryOperators.getNewKVP(valueToApply))        
         );
       case OperatorsUnary.delay:
+        console.log('delay ' + parseInt(valueToApply));
         return obs.pipe(
           delay(parseInt( valueToApply))
         );
