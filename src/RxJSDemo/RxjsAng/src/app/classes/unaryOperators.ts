@@ -15,6 +15,7 @@ import {
   debounceTime,
   debounce
 } from 'rxjs';
+import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
 import { KeyValuePairNumber } from '../lists.service';
 
 export enum OperatorsUnary {
@@ -149,11 +150,12 @@ export class unaryOperators {
         return obs;
     }
   }
-  private static getNewKVP(value: string) {
+  private static getNewKVP(value: string): KeyValuePairNumber {
     var kvp = new KeyValuePairNumber();
     kvp.key = -100;
     kvp.value = value;
     return kvp;
+    //return {interval:0,value: kvp};
   }
   public functionsFromOperator(operatorToApply: OperatorsUnary): string[] {
     switch (operatorToApply) {

@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import  mermaid from "mermaid";
+import { TimeInterval } from 'rxjs';
 import { KeyValuePairNumber } from '../lists.service';
 @Component({
   selector: 'app-rx-visualizer',
@@ -24,25 +25,32 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
   rxName: string = "asdasdasdasd";
 
   @Input()
-  data: KeyValuePairNumber[] = [];
+  data: TimeInterval<KeyValuePairNumber>[] = [];
 
   @Input()
-  dataPiped: KeyValuePairNumber[] = [];
+  dataPiped: TimeInterval<KeyValuePairNumber>[] = [];
 
   constructor() { }
   nr = 0;
-  private mermaindNodes(dataArr: KeyValuePairNumber[],name:string) {
+  private mermaindNodes(dataArr: TimeInterval<KeyValuePairNumber>[],name:string) {
     var str = "";
     if (dataArr.length == 0) {
       str += 'id((NoData))' + '\r\n';
     }
-    else if (this.data.length == 1) {
-      str += `id${name+dataArr[0].key}((${dataArr[0].value}))` + '\r\n';
+    else if (dataArr.length == 1) {
+      str += `id${name+dataArr[0].value.key}((${dataArr[0].value.value}))` + '\r\n';
     }
     else {
       for (var i = 1; i < dataArr.length; i++) {
-//        str += `id${name + dataArr[i - 1].key}((${dataArr[i - 1].value}))--${dataArr[i - 1].key}my${dataArr[i].key}-->id${name +dataArr[i].key}((${dataArr[i].value}))` + '\r\n';
-        str += `id${name + dataArr[i - 1].key}((${dataArr[i - 1].value}))-->id${name + dataArr[i].key}((${dataArr[i].value}))` + '\r\n';
+        var totalInterv = dataArr
+          .filter((v, index) => index <= i)
+          .reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
+
+        //var interv = (dataArr[i].interval / 1000).toFixed(0) + " sec";
+        var interv = (totalInterv / 1000).toFixed(0) +" sec";
+
+        str += `id${name + dataArr[i - 1].value.key}((${dataArr[i - 1].value.value}))-->|${interv}|id${name + dataArr[i].value.key}((${dataArr[i].value.value}))` + '\r\n';
+        //str += `id${name + dataArr[i - 1].value.key}((${dataArr[i - 1].value.value}))-->id${name + dataArr[i].value.key}((${dataArr[i].value.value}))` + '\r\n';
       }
     }
     return str;
@@ -66,20 +74,6 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     graphDefinition += this.mermaindNodes(this.dataPiped,"piped");
     graphDefinition += "end" + '\r\n';
 
-    if (this.dataPiped.length > 0) {
-      for (var i = 0; i < this.dataPiped.length; i++) {
-        var key = this.dataPiped[i].key;
-        if (this.data.length > 0) {
-          var existing = this.data.find(it => it.key == key);
-          if (existing) {
-            var existing = this.data[i];
-            //graphDefinition += `idpiped${this.dataPiped[i].key}<-->idorig${existing.key}` + '\r\n';
-          }
-        }
-
-      }
-
-    }
     //id1([This is the text in the box])
 
     console.log(graphDefinition);

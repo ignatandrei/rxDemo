@@ -1,4 +1,4 @@
-import { map, Observable } from "rxjs";
+import { map, Observable, TimeInterval, timeInterval } from "rxjs";
 import { KeyValuePairNumber, ListsService } from "../lists.service";
 import { exportNumbers } from "./obsNumbers";
 import { unaryOperators } from "./unaryOperators";
@@ -52,8 +52,8 @@ export class ObservableData {
 
   public whatOperator: unaryOperators[] = [];
   public startNumbers: exportNumbers = new exportNumbers();
-  public dataFor: KeyValuePairNumber[] = [];
-  public dataForOneOperator: KeyValuePairNumber[] = [];
+  public dataFor: TimeInterval<KeyValuePairNumber>[] = [];
+  public dataForOneOperator: TimeInterval<KeyValuePairNumber>[] = [];
   public list: ListsService;
   private startNetCoreNumbers() {
     this.startWithObs(
@@ -86,22 +86,24 @@ export class ObservableData {
     start.key = 0;
     start.finish = true;
     start.value = "Start";
-    this.dataFor = [start];
-    this.dataForOneOperator = [start];
-    
-    obs 
+    this.dataFor = [{ value: start ,interval: 0 }];
+    this.dataForOneOperator = [{ value: start, interval: 0 }];
+    obs
+      .pipe(
+        timeInterval()
+      )
       .subscribe({
-        next: (it: KeyValuePairNumber) => {
+        next: (it: TimeInterval< KeyValuePairNumber>) => {
           this.dataFor = [...this.dataFor, it];
         }
         ,
         complete: () => {
           // console.log("done");
           var c = new KeyValuePairNumber();
-          c.key = this.dataFor[this.dataFor.length - 1].key + 1;
+          c.key = this.dataFor[this.dataFor.length - 1].value.key + 1;
           c.finish = true;
           c.value = "Stop";
-          this.dataFor = [...this.dataFor, c];
+          this.dataFor = [...this.dataFor, {interval:0,value:c}];
         },
         error: () => {
           window.alert('error');
@@ -117,11 +119,12 @@ export class ObservableData {
       console.log("applied " + op.operatorToApply);
     }
 
-
-    obs2.subscribe(
-
+    
+    obs2.pipe(
+      timeInterval()
+    ).subscribe(
       {
-        next: (it: KeyValuePairNumber) => {
+        next: (it: TimeInterval< KeyValuePairNumber>) => {
           this.dataForOneOperator = [...this.dataForOneOperator, it];
         }
         ,
@@ -131,7 +134,7 @@ export class ObservableData {
           c.key = this.dataForOneOperator.length + 1;
           c.finish = true;
           c.value = "Stop";
-          this.dataForOneOperator = [...this.dataForOneOperator, c];
+          this.dataForOneOperator = [...this.dataForOneOperator, { interval: 0, value: c }];
         },
         error: () => {
           window.alert('error');
