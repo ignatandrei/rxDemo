@@ -84,10 +84,14 @@ export class ObservableData {
   private startWithObs(obs:Observable<KeyValuePairNumber>, obs2: Observable<KeyValuePairNumber>) {
     var start = new KeyValuePairNumber();
     start.key = 0;
-    start.finish = true;
-    start.value = "Start";
+    start.finish = false;
+    start.value = "Start original";
     this.dataFor = [{ value: start ,interval: 0 }];
-    this.dataForOneOperator = [{ value: start, interval: 0 }];
+    var startP = new KeyValuePairNumber();
+    startP.key = 0;
+    startP.finish = false;
+    startP.value = "Start piped";
+    this.dataForOneOperator = [{ value: startP, interval: 0 }];
     obs
       .pipe(
         timeInterval()
@@ -102,7 +106,7 @@ export class ObservableData {
           var c = new KeyValuePairNumber();
           c.key = this.dataFor[this.dataFor.length - 1].value.key + 1;
           c.finish = true;
-          c.value = "Stop";
+          c.value = "Stop original";
           this.dataFor = [...this.dataFor, {interval:0,value:c}];
         },
         error: () => {
@@ -133,7 +137,7 @@ export class ObservableData {
           var c = new KeyValuePairNumber();
           c.key = this.dataForOneOperator.length + 1;
           c.finish = true;
-          c.value = "Stop";
+          c.value = "Stop piped";
           this.dataForOneOperator = [...this.dataForOneOperator, { interval: 0, value: c }];
         },
         error: () => {

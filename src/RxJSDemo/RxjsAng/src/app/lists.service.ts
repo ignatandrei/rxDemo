@@ -60,6 +60,7 @@ export class KeyValuePairNumber{
   public key: number;
   public value: string;
   public finish: boolean = false;
+  public start: boolean = true;
 }
 
 class JsonStreamDecoder {
