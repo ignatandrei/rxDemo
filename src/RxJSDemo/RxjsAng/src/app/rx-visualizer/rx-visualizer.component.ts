@@ -59,9 +59,9 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
         
         
 
-        str += `id${name + dataArr[i - 1].key}((${dataArr[i - 1].value}))-->|${interv} , ${this.dateFromString(dataArr[i].RecTime)}|id${name + dataArr[i].key}((${dataArr[i].value}))` + '\r\n';
-        //str += `id${name + dataArr[i - 1].key}-->time${name + dataArr[i - 1].key}((${this.dateFromString(dataArr[i - 1].RecTime)}))`+ '\r\n';
-        // str +=`click id${name + dataArr[i - 1].key} unDefinedCallback "${this.dateFromString(dataArr[i-1].RecTime)}"` +"\r\n";
+        str += `id${name + dataArr[i - 1].key}((${dataArr[i - 1].value}))-->|${interv}|id${name + dataArr[i].key}((${dataArr[i].value}))` + '\r\n';
+        //str += `id${name + dataArr[i - 1].key}((${dataArr[i - 1].value}))-->|${interv} , ${this.dateFromString(dataArr[i].RecTime)}|id${name + dataArr[i].key}((${dataArr[i].value}))` + '\r\n';
+        
       }
     }
     return str;
@@ -149,7 +149,7 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
 
     var msOrig = "";
     var intSec = 0;
-    for (var i = 0; i < dataToSum.length - 1; i++) {
+    for (var i = 0; i < dataToSum.length ; i++) {
       //intSec = parseInt((dataToSum[i].interval / 1000).toFixed(0), 10);
       //intSec =10;
       //dt.setSeconds(dt.getSeconds() + 10);
