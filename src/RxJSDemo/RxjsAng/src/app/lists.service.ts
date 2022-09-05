@@ -1,7 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { OperatorsUnary, unaryOperators } from './classes/unaryOperators';
 
@@ -16,12 +16,15 @@ export class ListsService {
 
   
   public GetNumbers(fromNumber: number, count: number, delaySec: number): Observable<KeyValuePairNumber[]> {
-    return this.http.get<KeyValuePairNumber[]>(this.baseUrl + "Lists/GetNumbers/" + fromNumber + "/" + count + "/" + delaySec);
+    
+    return this.http.get<KeyValuePairNumber[]>(this.baseUrl + "Lists/GetNumbers/" + fromNumber + "/" + count + "/" + delaySec)
+      .pipe(map(it=> it.map(v=>new KeyValuePairNumber(v))));
+    
   }
 
   public GetNumbersObservable(fromNumber: number, count: number,repeat:number, delaySec: number): Observable<KeyValuePairNumber> {
     var url = (this.baseUrl + "Lists/GetNumbers/" + fromNumber + "/" + count + "/" + repeat +"/"+ delaySec);;
-    return this.fromFetchStream(url);
+    return this.fromFetchStream(url).pipe(map(it=>new KeyValuePairNumber(it)));
   }
 
   //https://gist.github.com/markotny/d21ef4e1af3d6ea5332b948c9c9987e5
@@ -57,10 +60,18 @@ export class ListsService {
 }
 
 export class KeyValuePairNumber{
+  constructor(private o: Partial<KeyValuePairNumber> = null) {
+    this.RecTime=new Date();
+    if (o == null)
+      return;
+    Object.keys(o).forEach(v => (this as any)[v] = o[v]);
+    this.RecTime=new Date();
+  }
   public key: number;
   public value: string;
   public finish: boolean = false;
   public start: boolean = true;
+  public RecTime:Date;
 }
 
 class JsonStreamDecoder {

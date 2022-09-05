@@ -52,8 +52,8 @@ export class ObservableData {
 
   public whatOperator: unaryOperators[] = [];
   public startNumbers: exportNumbers = new exportNumbers();
-  public dataFor: TimeInterval<KeyValuePairNumber>[] = [];
-  public dataForOneOperator: TimeInterval<KeyValuePairNumber>[] = [];
+  public dataFor: KeyValuePairNumber[] = [];
+  public dataForOneOperator: KeyValuePairNumber[] = [];
   public list: ListsService;
   private startNetCoreNumbers() {
     this.startWithObs(
@@ -86,28 +86,28 @@ export class ObservableData {
     start.key = 0;
     start.finish = false;
     start.value = "Start original";
-    this.dataFor = [{ value: start ,interval: 0 }];
+    this.dataFor = [ start ];
     var startP = new KeyValuePairNumber();
     startP.key = 0;
     startP.finish = false;
     startP.value = "Start piped";
-    this.dataForOneOperator = [{ value: startP, interval: 0 }];
+    this.dataForOneOperator = [startP];
     obs
       .pipe(
-        timeInterval()
+        //timeInterval()
       )
       .subscribe({
-        next: (it: TimeInterval< KeyValuePairNumber>) => {
+        next: (it: KeyValuePairNumber) => {
           this.dataFor = [...this.dataFor, it];
         }
         ,
         complete: () => {
           // console.log("done");
           var c = new KeyValuePairNumber();
-          c.key = this.dataFor[this.dataFor.length - 1].value.key + 1;
+          c.key = this.dataFor[this.dataFor.length - 1].key + 1;
           c.finish = true;
           c.value = "Stop original";
-          this.dataFor = [...this.dataFor, {interval:0,value:c}];
+          this.dataFor = [...this.dataFor, c];
         },
         error: () => {
           window.alert('error');
@@ -125,10 +125,11 @@ export class ObservableData {
 
     
     obs2.pipe(
-      timeInterval()
+      //timeInterval()
+      map(it=> new KeyValuePairNumber(it))
     ).subscribe(
       {
-        next: (it: TimeInterval< KeyValuePairNumber>) => {
+        next: (it: KeyValuePairNumber) => {
           this.dataForOneOperator = [...this.dataForOneOperator, it];
         }
         ,
@@ -138,7 +139,7 @@ export class ObservableData {
           c.key = this.dataForOneOperator.length + 1;
           c.finish = true;
           c.value = "Stop piped";
-          this.dataForOneOperator = [...this.dataForOneOperator, { interval: 0, value: c }];
+          this.dataForOneOperator = [...this.dataForOneOperator, c ];
         },
         error: () => {
           window.alert('error');

@@ -30,35 +30,47 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
   rxName: string = "";
 
   @Input()
-  data: TimeInterval<KeyValuePairNumber>[] = [];
+  data: KeyValuePairNumber[] = [];
 
   @Input()
-  dataPiped: TimeInterval<KeyValuePairNumber>[] = [];
+  dataPiped: KeyValuePairNumber[] = [];
 
   constructor() { }
   nr = 0;
-  private mermaindNodes(dataArr: TimeInterval<KeyValuePairNumber>[], name: string) {
+  private mermaindNodes(dataArr: KeyValuePairNumber[], name: string) {
     var str = "";
     if (dataArr.length == 0) {
       str += 'id((NoData))' + '\r\n';
     }
     else if (dataArr.length == 1) {
-      str += `id${name + dataArr[0].value.key}((${dataArr[0].value.value}))` + '\r\n';
+      str += `id${name + dataArr[0].key}((${dataArr[0].value}))` + '\r\n';
     }
     else {
       for (var i = 1; i < dataArr.length; i++) {
-        var totalInterv = dataArr
-          .filter((v, index) => index <= i)
-          .reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
+        // var totalInterv = dataArr
+        //   .filter((v, index) => index <= i)
+        //   .reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
 
         //var interv = (dataArr[i].interval / 1000).toFixed(0) + " sec";
+        //var totalInterv =100000;
+        var totalInterv =dataArr[i].RecTime.getTime()-dataArr[i-1].RecTime.getTime();;
+        
         var interv = (totalInterv / 1000).toFixed(0) + " sec";
+        
+        
 
-        str += `id${name + dataArr[i - 1].value.key}((${dataArr[i - 1].value.value}))-->|${interv}|id${name + dataArr[i].value.key}((${dataArr[i].value.value}))` + '\r\n';
-        //str += `id${name + dataArr[i - 1].value.key}((${dataArr[i - 1].value.value}))-->id${name + dataArr[i].value.key}((${dataArr[i].value.value}))` + '\r\n';
+        str += `id${name + dataArr[i - 1].key}((${dataArr[i - 1].value}))-->|${interv}|id${name + dataArr[i].key}((${dataArr[i].value}))` + '\r\n';
+        //str += `id${name + dataArr[i - 1].key}-->time${name + dataArr[i - 1].key}((${this.dateFromString(dataArr[i - 1].RecTime)}))`+ '\r\n';
+        //
       }
     }
     return str;
+  }
+  dateFromString(d: Date): string{
+    if(d)
+      return d.getMinutes()+" "+ d.getSeconds();
+    else
+      return "noDate";
   }
   constructMermaind() {
     const element: any = this.mermaidDiv.nativeElement;
@@ -103,10 +115,10 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.dataPiped.length > 0) {
-      this.dataPiped[0].value.value = "StartPipe";
+      this.dataPiped[0].value = "StartPipe";
     }
     this.constructMermaind();
-    var b = (this.data.findIndex(it => it.value.finish === true, 0) > 0) && (this.dataPiped.findIndex(it => it.value.finish === true, 0) > 0);
+    var b = (this.data.findIndex(it => it.finish === true, 0) > 0) && (this.dataPiped.findIndex(it => it.finish === true, 0) > 0);
     if (b) {
       console.log('done ' + b);
       console.log(this.data);
@@ -133,16 +145,16 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit(): void {
   }
 
-  private constructGanntFromData(dt:Date,dataToSum: TimeInterval<KeyValuePairNumber>[]):string {
+  private constructGanntFromData(dt:Date,dataToSum: KeyValuePairNumber[]):string {
 
     var msOrig = "";
     var intSec = 0;
     for (var i = 0; i < dataToSum.length - 1; i++) {
-      intSec = parseInt((dataToSum[i].interval / 1000).toFixed(0), 10);
-
+      //intSec = parseInt((dataToSum[i].interval / 1000).toFixed(0), 10);
+      intSec =10;
       dt.setSeconds(dt.getSeconds() + 10);
       var h = this.with2Digits(dt.getHours()) + ":" + this.with2Digits(dt.getMinutes()) + ":" + this.with2Digits(dt.getSeconds());
-      msOrig += " " + dataToSum[i].value.value + " : milestone, m1, " + h + ",1sec" + '\r\n';
+      msOrig += " " + dataToSum[i].value + " : milestone, m1, " + h + ",1sec" + '\r\n';
       
     }
     return msOrig;
@@ -166,8 +178,10 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
 //Andrei2 : milestone, m1, 17:50:03,1sec
 //Andrei9 : milestone, m1, 17:50:33,1sec
 //`;
-    var durOrig = this.data.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
-    var durPipe = this.dataPiped.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
+    // var durOrig = this.data.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
+    // var durPipe = this.dataPiped.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
+    var durOrig =1000;
+    var durPipe=1000;
     var maxDur = durOrig > durPipe ? durOrig : durPipe;
 
     
