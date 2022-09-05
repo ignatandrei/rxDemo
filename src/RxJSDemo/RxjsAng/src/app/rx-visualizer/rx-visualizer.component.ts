@@ -76,17 +76,17 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     const element: any = this.mermaidDiv.nativeElement;
     var graphDefinition = 'graph LR ' + '\r\n';
     graphDefinition = 'flowchart LR' + '\r\n';
-    graphDefinition += "subgraph original" + '\r\n';
-    graphDefinition += "direction LR" + '\r\n';
-    // console.log(this.data.length);
-    // console.log(this.data);
-    graphDefinition += this.mermaindNodes(this.data, "orig");
-    graphDefinition += "end" + '\r\n';
     graphDefinition += "subgraph piped" + '\r\n';
     graphDefinition += "direction LR" + '\r\n';
     // console.log(this.data.length);
     // console.log(this.data);
     graphDefinition += this.mermaindNodes(this.dataPiped, "piped");
+    graphDefinition += "end" + '\r\n';
+    graphDefinition += "subgraph original" + '\r\n';
+    graphDefinition += "direction LR" + '\r\n';
+    // console.log(this.data.length);
+    // console.log(this.data);
+    graphDefinition += this.mermaindNodes(this.data, "orig");
     graphDefinition += "end" + '\r\n';
 
     //id1([This is the text in the box])
@@ -151,8 +151,9 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     var intSec = 0;
     for (var i = 0; i < dataToSum.length - 1; i++) {
       //intSec = parseInt((dataToSum[i].interval / 1000).toFixed(0), 10);
-      intSec =10;
-      dt.setSeconds(dt.getSeconds() + 10);
+      //intSec =10;
+      //dt.setSeconds(dt.getSeconds() + 10);
+      var dt = dataToSum[i].RecTime;
       var h = this.with2Digits(dt.getHours()) + ":" + this.with2Digits(dt.getMinutes()) + ":" + this.with2Digits(dt.getSeconds());
       msOrig += " " + dataToSum[i].value + " : milestone, m1, " + h + ",1sec" + '\r\n';
       
@@ -161,7 +162,8 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
   }
   constructGantt() {
 
-    var dt = new Date("1970-04-16 17:49:47");
+    var dt = this.data[0].RecTime;
+    var h = this.with2Digits(dt.getHours()) + ":" + this.with2Digits(dt.getMinutes()) + ":" + this.with2Digits(dt.getSeconds());
 
     var msOrig = this.constructGanntFromData(new Date(dt),this.data);
     var msPiped = this.constructGanntFromData(new Date(dt) ,this.dataPiped);
@@ -180,8 +182,9 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
 //`;
     // var durOrig = this.data.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
     // var durPipe = this.dataPiped.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
-    var durOrig =1000;
-    var durPipe=1000;
+    var durOrig =this.data[this.data.length-1].RecTime.getTime()-this.data[0].RecTime.getTime();
+    var durPipe=this.dataPiped[this.dataPiped.length-1].RecTime.getTime()-this.dataPiped[0].RecTime.getTime();
+    ;
     var maxDur = durOrig > durPipe ? durOrig : durPipe;
 
     
@@ -193,7 +196,7 @@ axisFormat %H:%M:%S
 section Original
 ${msOrig}
 section  Separator
-Separator           :a1, 17:49:47, ${maxDur}sec
+Separator           :a1, ${h}, ${maxDur}sec
 section  Piped
 ${msPiped}
 `;
