@@ -13,7 +13,7 @@ import {
   startWith,
   delay,
   debounceTime,
-  debounce
+  finalize,
 } from 'rxjs';
 import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
 import { KeyValuePairNumber } from '../lists.service';
@@ -32,8 +32,8 @@ export enum OperatorsUnary {
   DistinctUntilChanged = "distinctUntilChanged",
   startWith = "startWith",
   delay = "delay",
-  debounceTime ="debounceTime"
-
+  debounceTime ="debounceTime",
+  finalize="finalize"
 }
 export class unaryOperators {
 
@@ -138,7 +138,7 @@ export class unaryOperators {
           startWith(unaryOperators.getNewKVP(valueToApply))        
         );
       case OperatorsUnary.delay:
-        console.log('delay ' + parseInt(valueToApply));
+        // console.log('delay ' + parseInt(valueToApply));
         return obs.pipe(
           delay(parseInt( valueToApply))
         );
@@ -146,7 +146,14 @@ export class unaryOperators {
         return obs.pipe(
           debounceTime(parseInt(valueToApply))
         );
-      default:
+        case OperatorsUnary.finalize:
+          return obs.pipe(
+            finalize(()=>unaryOperators.applyFunction(
+              "finished the pipeline",
+              functionToApply,
+              valueToApply
+            )));
+        default:
         return obs;
     }
   }
@@ -183,12 +190,14 @@ export class unaryOperators {
         return [];
     case OperatorsUnary.DistinctUntilChanged:
         return [];
-    default:
+    case OperatorsUnary.finalize:
+          return ['log', 'alert'];
+      default:
         return [];
     }
   }
   public static getKeyName(value: string): any {
-    console.log('!!!' + value);
+    // console.log('!!!' + value);
     var data = Object.entries(OperatorsUnary).find(
       ([key, val]) => val === value
     );

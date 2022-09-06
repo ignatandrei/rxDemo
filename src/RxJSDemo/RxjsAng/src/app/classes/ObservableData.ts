@@ -115,12 +115,12 @@ export class ObservableData {
       })
 
     //var obs2 = this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.repeat, this.startNumbers.delaySec * 1000);
-    console.log("nr operators" + this.numberOperators);
+    // console.log("nr operators" + this.numberOperators);
     
     for (var operatorNr = 0; operatorNr < this.numberOperators; operatorNr++) {
       var op = this.whatOperator[operatorNr];
       obs2 = unaryOperators.applyPipe(obs2, op.operatorToApply, op.functionToApply, op.valueToApply);
-      console.log("applied " + op.operatorToApply);
+      // console.log("applied " + op.operatorToApply);
     }
 
     

@@ -120,9 +120,9 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     this.constructMermaind();
     var b = (this.data.findIndex(it => it.finish === true, 0) > 0) && (this.dataPiped.findIndex(it => it.finish === true, 0) > 0);
     if (b) {
-      console.log('done ' + b);
-      console.log(this.data);
-      console.log(this.dataPiped);
+      // console.log('done ' + b);
+      // console.log(this.data);
+      // console.log(this.dataPiped);
       this.constructGantt();
     }
 
@@ -201,7 +201,7 @@ section  Piped
 ${msPiped}
 `;
 
-    console.log(graphDefinition);
+    // console.log(graphDefinition);
     const element: any = this.mermaidGanntDiv.nativeElement;
 
     
