@@ -13,6 +13,8 @@ export class ObsDataSerializable {
     this.Data.set("debounceTime", ObservableData.fromJSON('{"source":1,"numberOperators":2,"whatOperator":[{"operatorToApply":"startWith","valueToApply":"4","functionToApply":"numberToTake"},{"operatorToApply":"debounceTime","valueToApply":"10000","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}'));
     this.Data.set("tap",ObservableData.fromJSON('{"source":1,"numberOperators":1,"whatOperator":[{"operatorToApply":"tap","valueToApply":"4","functionToApply":"log"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}'));
     this.setString("elementAt",'{"source":1,"numberOperators":1,"whatOperator":[{"operatorToApply":"elementAt","valueToApply":"4","functionToApply":"position"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}');
+    this.setString("mergeMap",'{"source":1,"numberOperators":1,"whatOperator":[{"operatorToApply":"mergeMap","valueToApply":"5","functionToApply":"throwErrorAfter"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}');
+    this.setString("retry",'{"source":1,"numberOperators":2,"whatOperator":[{"operatorToApply":"mergeMap","valueToApply":"4","functionToApply":"throwErrorAfter"},{"operatorToApply":"retry","valueToApply":"2","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}')
   }
   private setString(name:string, value:string){
     this.Data.set(name,ObservableData.fromJSON(value));

@@ -14,6 +14,9 @@ import {
   delay,
   debounceTime,
   finalize,
+  mergeMap,
+  of,
+  retry,
 } from 'rxjs';
 import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
 import { KeyValuePairNumber } from '../lists.service';
@@ -33,7 +36,9 @@ export enum OperatorsUnary {
   startWith = "startWith",
   delay = "delay",
   debounceTime ="debounceTime",
-  finalize="finalize"
+  finalize="finalize",
+  mergeMap  = "mergeMap",
+  retry="retry",
 }
 export class unaryOperators {
 
@@ -153,6 +158,23 @@ export class unaryOperators {
               functionToApply,
               valueToApply
             )));
+      case OperatorsUnary.retry:
+        var nr= unaryOperators.applyFunction(null,functionToApply,valueToApply);
+
+        return obs.pipe(retry(parseInt(nr)));
+
+      case OperatorsUnary.mergeMap:
+              return obs.pipe(
+                mergeMap(it=>
+                  {
+                    var val=unaryOperators.applyFunction(
+                      it.value,
+                      functionToApply,
+                      valueToApply
+                    );
+                    var kvp=new KeyValuePairNumber({key:it.key,value:val});
+                    return of(kvp);
+                  }));
         default:
         return obs;
     }
@@ -192,6 +214,10 @@ export class unaryOperators {
         return [];
     case OperatorsUnary.finalize:
           return ['log', 'alert'];
+    case OperatorsUnary.mergeMap:
+            return ['throwErrorAfter'];
+    case OperatorsUnary.retry:
+        return ["numberToTake"];
       default:
         return [];
     }
@@ -233,7 +259,12 @@ export class unaryOperators {
         return parseInt(valueToApply).toFixed(0);
     case 'position':
             return parseInt(valueToApply).toFixed(0);
-          default:
+    case  "throwErrorAfter":
+        var val1=parseInt(value);
+        var val2=parseInt(valueToApply);
+        if(val1<=val2) return value;
+        throw new Error("past data");
+     default:
         return value;
     }
   }
