@@ -17,6 +17,7 @@ import {
   mergeMap,
   of,
   retry,
+  skipWhile
 } from 'rxjs';
 import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
 import { KeyValuePairNumber } from '../lists.service';
@@ -39,6 +40,7 @@ export enum OperatorsUnary {
   finalize="finalize",
   mergeMap  = "mergeMap",
   retry="retry",
+  skipWhile= "skipWhile",
 }
 export class unaryOperators {
 
@@ -93,6 +95,17 @@ export class unaryOperators {
             parseInt(
               unaryOperators.applyFunction('', functionToApply, valueToApply)
             )
+          )
+        );
+      case OperatorsUnary.skipWhile:
+        return obs.pipe(
+          skipWhile((it: KeyValuePairNumber)=>{
+
+            var val=unaryOperators.applyFunction(it.value, functionToApply, valueToApply);
+
+            return val == "1";
+          }
+            
           )
         );
       case OperatorsUnary.TakeFromBegin:
@@ -202,7 +215,9 @@ export class unaryOperators {
         return ['numberToSkip'];
     case OperatorsUnary.ElementAt:
         return ['position'];
-      case OperatorsUnary.startWith:
+        case OperatorsUnary.skipWhile:
+          return ['lessThan', "greaterThan"];
+        case OperatorsUnary.startWith:
         return ['numberToTake'];
       case OperatorsUnary.delay:
         return ['numberToTake'];
@@ -241,6 +256,13 @@ export class unaryOperators {
     // console.log(functionApply);
     // console.log(valueToApply);
     switch (functionApply) {
+      case 'lessThan':
+        var b= (parseInt(value) < parseInt(valueToApply));
+        return b?"1":"0"; 
+      case "greaterThan":
+        var b= (parseInt(value) > parseInt(valueToApply));
+        return b?"1":"0"; 
+
       case 'multiply':
         return (parseInt(value) * parseInt(valueToApply)).toFixed(0);
       case 'add':
