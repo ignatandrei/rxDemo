@@ -2,8 +2,9 @@
 
 namespace RxJSData
 {
-    public class Lists
+    public partial class Lists
     {
+
         //to understand: https://oleh-zheleznyak.blogspot.com/2020/07/enumeratorcancellation.html
         public async IAsyncEnumerable<KeyValuePair<long, string>> GetTicks(int? millisecondsDelay, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
@@ -16,7 +17,7 @@ namespace RxJSData
             }
         }
 
-        public async IAsyncEnumerable<KeyValuePair<long, string>> GetNumbers(long? startFrom, long? count,long? repeat ,int? millisecondsDelay, [EnumeratorCancellation] CancellationToken cancellationToken)
+        public async IAsyncEnumerable<KeyValuePair<long, string>> GetNumbers(long? startFrom, long? count, long? repeat, int? millisecondsDelay, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             long nr = 0;
             millisecondsDelay ??= 3_000;
@@ -24,7 +25,7 @@ namespace RxJSData
             count ??= 10;
             repeat ??= 1;
 
-            while (nr<=count)
+            while (nr <= count)
             {
                 for (int i = 0; i < repeat; i++)
                 {
@@ -33,6 +34,17 @@ namespace RxJSData
                 }
                 startFrom++;
                 //await Task.Delay(millisecondsDelay.Value, cancellationToken);
+            }
+        }
+        public async IAsyncEnumerable<KeyValuePair<long, string>> GetCountries(string name, int? millisecondsDelay, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            millisecondsDelay ??= 3_000;
+            long nr = 0;
+            var data= Countries.Where(it=>it.ToLower().Contains(name.ToLower())).ToArray();
+            foreach (var item in data)
+            {
+                yield return new KeyValuePair<long, string>(++nr, item);
+                await Task.Delay(millisecondsDelay.Value, cancellationToken);
             }
         }
     }

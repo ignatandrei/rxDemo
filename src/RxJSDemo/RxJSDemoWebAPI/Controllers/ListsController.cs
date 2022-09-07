@@ -24,9 +24,14 @@ namespace RxJSDemoWebAPI.Controllers
             return this.lists.GetTicks(millisecondsDelay, cancellationToken);
         }
         [HttpGet("{startFrom?}/{count?}/{repeat?}/{millisecondsDelay?}")]
-        public IAsyncEnumerable<KeyValuePair<long, string>> GetNumbers(long? startFrom, long? count, long? repeat,int? millisecondsDelay, CancellationToken cancellationToken)
+        public IAsyncEnumerable<KeyValuePair<long, string>> GetNumbers(long? startFrom, long? count, long? repeat, int? millisecondsDelay, CancellationToken cancellationToken)
         {
-            return this.lists.GetNumbers(startFrom, count, repeat,millisecondsDelay, cancellationToken);
+            return this.lists.GetNumbers(startFrom, count, repeat, millisecondsDelay, cancellationToken);
+        }
+        [HttpGet("{name}/{millisecondsDelay?}")]
+        public  IAsyncEnumerable<KeyValuePair<long, string>> GetCountries(string name, int? millisecondsDelay,  CancellationToken cancellationToken)
+        {
+            return this.lists.GetCountries(name, millisecondsDelay,cancellationToken);
         }
     }
 }
