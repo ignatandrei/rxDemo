@@ -13,7 +13,7 @@ import { KeyValuePairNumber, ListsService } from '../lists.service';
 export class OneObservableComponent   {
 
   
-  
+  public sourceDatas= Object.values(SourceOfData);
   public operators = Object.values(OperatorsUnary);
   public obs: ObservableData = new ObservableData();
   public obsSer: ObsDataSerializable = new ObsDataSerializable();
@@ -54,8 +54,8 @@ export class OneObservableComponent   {
     console.log(this.obs.toJson());
     this.obs.start();
   }
-  public loadExample(k: string) {
-    this.obs = new ObservableData(this.obsSer.Data.get(k));
+  public loadExampleNumbers(k: string) {
+    this.obs = new ObservableData(this.obsSer.NumberData(k));
     this.obs.list = this.list;
     this.searchBox = document.getElementById('search-box') as HTMLInputElement;
     this.obs.fromTextBox = fromEvent(this.searchBox, 'input');

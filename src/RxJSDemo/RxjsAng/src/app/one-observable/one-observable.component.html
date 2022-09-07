@@ -1,15 +1,22 @@
 
-<button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Click for examples</button>
+<button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Click for examples with numbers</button>
 <mat-menu #menu="matMenu">
     <span *ngFor="let d of obsSer.sortKeys;let i=index">
-  <button mat-menu-item (click)="loadExample(d)">{{i+1}}){{d}}</button>
+  <button mat-menu-item (click)="loadExampleNumbers(d)">{{i+1}}){{d}}</button>
     </span>
 </mat-menu>
   
   <br />
   
-    <input id='search-box' [hidden]="!(obs.source == 2)" />
-    <div [hidden]="!(obs.source == 1)" >
+
+  <select [(ngModel)]="obs.source">
+    <option *ngFor="let name of sourceDatas" [value]="name"> {{ name }} </option>
+  </select>
+
+  <br />
+
+    <input id='search-box' [hidden]="!(obs.source == 'fromTextBox')" />
+    <div [hidden]="!(obs.source == 'netCoreGetNumbers')" >
     From a list of observable (numbers) from
     <input [(ngModel)]="obs.startNumbers.fromNumber" /> count
     <input [(ngModel)]="obs.startNumbers.count" /> repeat

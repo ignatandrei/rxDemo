@@ -3,9 +3,9 @@ import { KeyValuePairNumber, ListsService } from "../lists.service";
 import { exportNumbers } from "./obsNumbers";
 import { unaryOperators } from "./unaryOperators";
 export enum SourceOfData {
-  none= 0,
-  netCoreGetNumbers = 1,
-  fromTextBox=2
+  none= '',
+  netCoreGetNumbers = 'netCoreGetNumbers',
+  fromTextBox='fromTextBox'
 }
 export class ObservableData {
 
