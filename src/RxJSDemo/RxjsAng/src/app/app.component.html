@@ -1,50 +1,33 @@
-
-<ul>
-  <li *ngFor="let d of obsSer.Data.keys();let i=index">
-    <button (click)="loadExample(d)">{{d}}</button>
-  </li>
-</ul>
-
-
-
-  <input id='search-box' />
-  From a list of observable (numbers) from
-  <input [(ngModel)]="obs.startNumbers.fromNumber" /> count
-  <input [(ngModel)]="obs.startNumbers.count" /> repeat
-  <input [(ngModel)]="obs.startNumbers.repeat" /> delay
-  <input [(ngModel)]="obs.startNumbers.delaySec" />
-
-  <br />
-  Number of operators {{obs.numberOperators}}
-
-  <button value="Add!" (click)="obs.IncrementOperators()">AddOperator</button>
-  <br />
-
-  <div *ngFor="let op of obs.whatOperator;let i=index">
-    Operator {{i+1}}
-
-    <select [(ngModel)]="op.operatorToApply">
-      <option *ngFor="let name of operators" [value]="name"> {{ name }} </option>
-    </select>
-
-    <select [(ngModel)]="op.functionToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0">
-
-      <option *ngFor="let name of op.functionsFromOperator(op.operatorToApply)" [value]="name"> {{ name }} </option>
-
-    </select>
-
-    <input [(ngModel)]="op.valueToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0" />
-    The RXJS is <b><a target="_blank" href="https://rxjs.dev/api/operators/{{op.operatorToApply}}">{{op.operatorToApply}}</a></b>
-    <!-- add http://introtorx.com/Content/v1.0.10621.0/05_Filtering.html#SkipLastTakeLast -->
-    <button (click)="obs.DeleteOperator(i)" *ngIf="obs.numberOperators>1">Delete</button>
-
-  </div>
-
-  <br />
-
-  <button (click)="start()">Start</button>
-
-  <app-rx-visualizer [rxName]="original" [data]="obs.dataFor" [dataPiped]="obs.dataForOneOperator"></app-rx-visualizer>
-
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false">
+      <mat-toolbar>Menu</mat-toolbar>
+      <mat-nav-list>
+        
+        <a mat-list-item routerLink="/dashboard/oneobserver">One Observer</a>
+        <a mat-list-item href="#">Link 2</a>
+        <a mat-list-item href="#">Link 3</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span>Rxjs Demos</span>
+      </mat-toolbar>
+      <!-- Add Content Here -->
+      
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  
+  </mat-sidenav-container>
   
 
