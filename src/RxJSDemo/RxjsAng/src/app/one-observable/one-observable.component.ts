@@ -65,6 +65,10 @@ export class OneObservableComponent   {
   public loadExampleTextBox(k: string) {
     this.obs = new ObservableData(this.obsSer.TextData(k));
    this.constructAndStart();
+   setTimeout(() => {
+    this.searchBox.focus(); 
+   }, 1000);
+   
     
   }
   private constructAndStart(){
