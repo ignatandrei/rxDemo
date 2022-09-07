@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, fromEvent } from 'rxjs';
+import { Observable, fromEvent, share } from 'rxjs';
 import { ObsDataSerializable } from '../classes/ObsDataSerializable';
 import { ObservableData, SourceOfData } from '../classes/ObservableData';
 import { OperatorsUnary } from '../classes/unaryOperators';
@@ -50,16 +50,27 @@ export class OneObservableComponent   {
     //  tap(it => console.log(it))
     //);
     //this.typeahead.subscribe();
-    this.obs.source = SourceOfData.netCoreGetNumbers;
+    //this.obs.source = SourceOfData.netCoreGetNumbers;
     console.log(this.obs.toJson());
-    this.obs.start();
+    this.obs = new ObservableData(this.obs);
+    this.constructAndStart();
   }
   public loadExampleNumbers(k: string) {
     this.obs = new ObservableData(this.obsSer.NumberData(k));
+   this.constructAndStart();
+    
+  }
+  public loadExampleTextBox(k: string) {
+    this.obs = new ObservableData(this.obsSer.TextData(k));
+   this.constructAndStart();
+    
+  }
+  private constructAndStart(){
     this.obs.list = this.list;
     this.searchBox = document.getElementById('search-box') as HTMLInputElement;
-    this.obs.fromTextBox = fromEvent(this.searchBox, 'input');
-
+    this.obs.fromTextBox = fromEvent(this.searchBox, 'input')
+      .pipe(share());
+    ;
     this.obs.start();
   }
   

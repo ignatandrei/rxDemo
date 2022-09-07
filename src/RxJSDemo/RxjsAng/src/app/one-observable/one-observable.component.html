@@ -1,8 +1,18 @@
 
 <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Click for examples with numbers</button>
 <mat-menu #menu="matMenu">
-    <span *ngFor="let d of obsSer.sortKeys;let i=index">
+    <span *ngFor="let d of obsSer.sortKeysNumber;let i=index">
   <button mat-menu-item (click)="loadExampleNumbers(d)">{{i+1}}){{d}}</button>
+    </span>
+</mat-menu>
+
+
+
+
+<button mat-raised-button color="primary" [matMenuTriggerFor]="menuText">Click for examples with textbox</button>
+<mat-menu #menuText="matMenu">
+    <span *ngFor="let d of obsSer.sortKeysTextBox;let i=index">
+  <button mat-menu-item (click)="loadExampleTextBox(d)">{{i+1}}){{d}}</button>
     </span>
 </mat-menu>
   
