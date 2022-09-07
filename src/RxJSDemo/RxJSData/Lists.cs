@@ -40,7 +40,11 @@ namespace RxJSData
         {
             millisecondsDelay ??= 3_000;
             long nr = 0;
-            var data= Countries.Where(it=>it.ToLower().Contains(name.ToLower())).ToArray();
+            var data= Countries
+                .Where(it=>it.ToLower()           
+                .Contains(name.ToLower()))
+                .OrderBy(it=>it)
+                .ToArray();
             foreach (var item in data)
             {
                 yield return new KeyValuePair<long, string>(++nr, item);

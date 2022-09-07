@@ -17,10 +17,11 @@ import {
   mergeMap,
   of,
   retry,
-  skipWhile
+  skipWhile,
+  switchMap
 } from 'rxjs';
 import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
-import { KeyValuePairNumber } from '../lists.service';
+import { KeyValuePairNumber, ListsService } from '../lists.service';
 
 export enum OperatorsUnary {
   'None' = '',
@@ -41,6 +42,7 @@ export enum OperatorsUnary {
   mergeMap  = "mergeMap",
   retry="retry",
   skipWhile= "skipWhile",
+  switchMap="switchMap",
 }
 export class unaryOperators {
 
@@ -60,7 +62,8 @@ export class unaryOperators {
     obs: Observable<KeyValuePairNumber>,
     thePipe: OperatorsUnary,
     functionToApply: string,
-    valueToApply: string
+    valueToApply: string,
+    list: ListsService
   ): Observable<KeyValuePairNumber> {
     switch (thePipe) {
       case OperatorsUnary.ChangeValues:
@@ -95,6 +98,14 @@ export class unaryOperators {
             parseInt(
               unaryOperators.applyFunction('', functionToApply, valueToApply)
             )
+          )
+        );
+        case OperatorsUnary.switchMap:
+        return obs.pipe(
+          switchMap((it: KeyValuePairNumber)=>{
+            return list.GetCountriesObservable(it.value,parseInt(valueToApply));            
+          }
+            
           )
         );
       case OperatorsUnary.skipWhile:
@@ -207,6 +218,8 @@ export class unaryOperators {
         return ['log', 'alert'];
       case OperatorsUnary.SkipValuesBegin:
         return ['numberToSkip'];
+      case OperatorsUnary.switchMap:
+        return ['countriesWithDelay'];
       case OperatorsUnary.TakeFromBegin:
         return ['numberToTake'];
     case OperatorsUnary.TakeFromLast:

@@ -25,6 +25,7 @@ export class OneObservableComponent   {
   
   constructor(public list: ListsService) {
     this.obs.list = list;
+    this.obs.source= SourceOfData.netCoreGetNumbers;
     
   }
   title = 'RxjsAng';
@@ -53,6 +54,7 @@ export class OneObservableComponent   {
     //this.obs.source = SourceOfData.netCoreGetNumbers;
     console.log(this.obs.toJson());
     this.obs = new ObservableData(this.obs);
+    
     this.constructAndStart();
   }
   public loadExampleNumbers(k: string) {

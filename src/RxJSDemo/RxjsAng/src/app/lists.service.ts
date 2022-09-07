@@ -27,6 +27,12 @@ export class ListsService {
     return this.fromFetchStream(url).pipe(map(it=>new KeyValuePairNumber(it)));
   }
 
+  public GetCountriesObservable(name: string, milliSecondsDelay: number): Observable<KeyValuePairNumber> {
+    var url = (this.baseUrl + "Lists/GetCountries/" + name + "/" + milliSecondsDelay);
+    return this.fromFetchStream(url).pipe(map(it=>new KeyValuePairNumber(it)));
+  }
+
+
   //https://gist.github.com/markotny/d21ef4e1af3d6ea5332b948c9c9987e5
   //https://medium.com/@markotny97/streaming-iasyncenumerable-to-rxjs-front-end-8eb5323ca282
   public fromFetchStream<T>(input: RequestInfo, init?: RequestInit): Observable<T> {

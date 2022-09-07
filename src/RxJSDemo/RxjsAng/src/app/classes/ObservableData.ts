@@ -119,7 +119,7 @@ export class ObservableData {
     
     for (var operatorNr = 0; operatorNr < this.numberOperators; operatorNr++) {
       var op = this.whatOperator[operatorNr];
-      obs2 = unaryOperators.applyPipe(obs2, op.operatorToApply, op.functionToApply, op.valueToApply);
+      obs2 = unaryOperators.applyPipe(obs2, op.operatorToApply, op.functionToApply, op.valueToApply, this.list);
       // console.log("applied " + op.operatorToApply);
     }
 

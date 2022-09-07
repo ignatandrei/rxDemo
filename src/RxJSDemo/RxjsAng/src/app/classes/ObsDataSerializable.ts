@@ -34,7 +34,8 @@ export class ObsDataSerializable {
     this.setStringNumbers("skipWhile",'{"source":"netCoreGetNumbers","numberOperators":1,"whatOperator":[{"operatorToApply":"skipWhile","valueToApply":"5","functionToApply":"lessThan"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}');
     
     this.setStringTextBox("distinctTimer",'{"source":"fromTextBox","numberOperators":3,"whatOperator":[{"operatorToApply":"debounceTime","valueToApply":"3000","functionToApply":"numberToTake"},{"operatorToApply":"distinctUntilChanged","valueToApply":"10","functionToApply":"multiply"},{"operatorToApply":"map","valueToApply":"10","functionToApply":"multiply"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}');
-  
+    this.setStringTextBox("switchMap",'{"source":"fromTextBox","numberOperators":1,"whatOperator":[{"operatorToApply":"switchMap","valueToApply":"4000","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}');
+    this.setStringTextBox('full','{"source":"fromTextBox","numberOperators":3,"whatOperator":[{"operatorToApply":"debounceTime","valueToApply":"5000","functionToApply":"numberToTake"},{"operatorToApply":"distinctUntilChanged","valueToApply":"10"},{"operatorToApply":"switchMap","valueToApply":"2000","functionToApply":"countriesWithDelay"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}');
   }
   private setStringNumbers(name:string, value:string){
     this.DataNumberExample.set(name,ObservableData.fromJSON(value));
