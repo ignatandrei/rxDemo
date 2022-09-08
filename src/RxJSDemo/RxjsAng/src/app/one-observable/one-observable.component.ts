@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, fromEvent, share } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, fromEvent, share, tap } from 'rxjs';
 import { ObsDataSerializable } from '../classes/ObsDataSerializable';
 import { ObservableData, SourceOfData } from '../classes/ObservableData';
 import { OperatorsUnary } from '../classes/unaryOperators';
@@ -22,10 +23,19 @@ export class OneObservableComponent   {
     typeahead: Observable<KeyValuePairNumber>;
     searchBox: HTMLInputElement;
   
-  
-  constructor(public list: ListsService) {
+  public exampleID: string;
+  public exampleSource: string;
+
+  constructor(public list: ListsService, private route: ActivatedRoute) {
     this.obs.list = list;
     this.obs.source= SourceOfData.netCoreGetNumbers;
+    this.route.paramMap.pipe(
+      tap(params => {
+        this.exampleID = params.get('exampleId');
+        this.exampleSource = params.get('exampleSource');
+        
+      })
+    ).subscribe();
     
   }
   private urlCountries:string|null=null;
@@ -71,11 +81,15 @@ export class OneObservableComponent   {
     this.constructAndStart();
   }
   public loadExampleNumbers(k: string) {
+    this.exampleID = k;
+    this.exampleSource= this.obs.source;
     this.obs = new ObservableData(this.obsSer.NumberData(k));
    this.constructAndStart();
     
   }
   public loadExampleTextBox(k: string) {
+    this.exampleID = k;
+    this.exampleSource= this.obs.source;
     this.obs = new ObservableData(this.obsSer.TextData(k));
    this.constructAndStart();
    setTimeout(() => {

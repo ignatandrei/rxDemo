@@ -34,8 +34,9 @@
     <input [(ngModel)]="obs.startNumbers.delaySec" />
     </div>
     <br />
-    {{urlAPI}}
-
+    API URL: {{urlAPI}}
+    <br />
+    Current API : <a target="_blank" [routerLink]="['/dashboard','example','oneobserver',exampleSource, exampleID]">/dashboard/example/oneobserver/{{exampleSource}}/{{exampleID}}</a>
     <br />
     
     Number of operators {{obs.numberOperators}}
