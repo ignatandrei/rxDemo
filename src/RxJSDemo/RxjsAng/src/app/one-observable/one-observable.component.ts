@@ -11,7 +11,7 @@ import { KeyValuePairNumber, ListsService } from '../lists.service';
   templateUrl: './one-observable.component.html',
   styleUrls: ['./one-observable.component.css']
 })
-export class OneObservableComponent   {
+export class OneObservableComponent implements OnInit {
 
   
   public sourceDatas= Object.values(SourceOfData);
@@ -23,8 +23,8 @@ export class OneObservableComponent   {
     typeahead: Observable<KeyValuePairNumber>;
     searchBox: HTMLInputElement;
   
-  public exampleID: string;
-  public exampleSource: string;
+  public exampleID: string| null = null;
+  public exampleSource: string| null = null;
 
   constructor(public list: ListsService, private route: ActivatedRoute) {
     this.obs.list = list;
@@ -38,6 +38,24 @@ export class OneObservableComponent   {
     ).subscribe();
     
   }
+  ngOnInit(): void {
+    if((this.exampleSource ||'').length == 0)
+      return;
+      this.obs.source = this.sourceDatas.find(it=> it.toLowerCase() == this.exampleSource.toLowerCase());
+      switch(this.obs.source){
+        case SourceOfData.fromTextBox:
+          this.loadExampleTextBox(this.exampleID);
+          return;
+          case SourceOfData.netCoreGetNumbers:
+            this.loadExampleNumbers(this.exampleID);
+            return;
+          default:
+            window.alert("not such " + this.obs.source);
+            return;
+        }
+  }
+
+
   private urlCountries:string|null=null;
   public get urlAPI(){
     switch(this.obs.source){
