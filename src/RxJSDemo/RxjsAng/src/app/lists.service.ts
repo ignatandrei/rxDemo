@@ -13,22 +13,21 @@ export class ListsService {
   baseUrl: string = environment.url;
   
   constructor(private http: HttpClient) { }
-
+  public urlNumbers(fromNumber: number, count: number,repeat:number, delaySec: number): string {
+   return (this.baseUrl + "Lists/GetNumbers/" + fromNumber + "/" + count + "/" + repeat +"/"+ delaySec);
+    }
   
-  public GetNumbers(fromNumber: number, count: number, delaySec: number): Observable<KeyValuePairNumber[]> {
-    
-    return this.http.get<KeyValuePairNumber[]>(this.baseUrl + "Lists/GetNumbers/" + fromNumber + "/" + count + "/" + delaySec)
-      .pipe(map(it=> it.map(v=>new KeyValuePairNumber(v))));
-    
-  }
-
+  
+  
   public GetNumbersObservable(fromNumber: number, count: number,repeat:number, delaySec: number): Observable<KeyValuePairNumber> {
-    var url = (this.baseUrl + "Lists/GetNumbers/" + fromNumber + "/" + count + "/" + repeat +"/"+ delaySec);;
+    var url = this.urlNumbers(fromNumber,count,repeat,delaySec);
     return this.fromFetchStream(url).pipe(map(it=>new KeyValuePairNumber(it)));
   }
-
+  public urlCountries(name: string, milliSecondsDelay: number){
+      return (this.baseUrl + "Lists/GetCountries/" + name + "/" + milliSecondsDelay);
+  }
   public GetCountriesObservable(name: string, milliSecondsDelay: number): Observable<KeyValuePairNumber> {
-    var url = (this.baseUrl + "Lists/GetCountries/" + name + "/" + milliSecondsDelay);
+    var url = this.urlCountries(name,milliSecondsDelay);
     return this.fromFetchStream(url).pipe(map(it=>new KeyValuePairNumber(it)));
   }
 

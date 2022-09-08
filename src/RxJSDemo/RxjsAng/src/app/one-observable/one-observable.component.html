@@ -34,6 +34,10 @@
     <input [(ngModel)]="obs.startNumbers.delaySec" />
     </div>
     <br />
+    {{urlAPI}}
+
+    <br />
+    
     Number of operators {{obs.numberOperators}}
   
     <button mat-raised-button color="primary" value="Add!" (click)="obs.IncrementOperators()">AddOperator</button>

@@ -28,6 +28,19 @@ export class OneObservableComponent   {
     this.obs.source= SourceOfData.netCoreGetNumbers;
     
   }
+  private urlCountries:string|null=null;
+  public get urlAPI(){
+    switch(this.obs.source){
+      case SourceOfData.netCoreGetNumbers:
+        return this.list.urlNumbers(this.obs.startNumbers.fromNumber, this.obs.startNumbers.count, this.obs.startNumbers.repeat, this.obs.startNumbers.delaySec * 1000);
+      case SourceOfData.fromTextBox:
+          return "example:"+this.list.urlCountries("ro", 2000);
+  
+        default:
+        window.alert(`please add ${this.obs.source}`);
+    }
+
+  }
   title = 'RxjsAng';
 
   public start() {
