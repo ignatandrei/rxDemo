@@ -119,7 +119,8 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     }
     this.constructMermaind();
     var b = (this.data.findIndex(it => it.finish === true, 0) > 0) && (this.dataPiped.findIndex(it => it.finish === true, 0) > 0);
-    if (b) {
+    //if (b)
+    {
       // console.log('done ' + b);
       // console.log(this.data);
       // console.log(this.dataPiped);
@@ -186,7 +187,8 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     var durPipe=this.dataPiped[this.dataPiped.length-1].RecTime.getTime()-this.dataPiped[0].RecTime.getTime();
     ;
     var maxDur = durOrig > durPipe ? durOrig : durPipe;
-
+    if(maxDur % 2 == 1)
+      maxDur+=1;
     
     maxDur = parseInt((maxDur / 1000).toFixed(0), 10);
     maxDur += 1;

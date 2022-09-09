@@ -58,7 +58,10 @@
       </select>
   
       <input [(ngModel)]="op.valueToApply" *ngIf="op.functionsFromOperator(op.operatorToApply).length>0" />
-      The RXJS is <b><a target="_blank" href="https://rxjs.dev/api/operators/{{op.operatorToApply}}">{{op.operatorToApply}}</a></b>
+      The RXJS is <b><a target="_blank" href="https://rxjs.dev/api/operators/{{op.operatorToApply}}">Documentation {{op.operatorToApply}}</a></b>
+      or 
+      <b><a target="_blank"  href="https://indepth.dev/reference/rxjs/operators/{{op.operatorToApply}}">Resource {{op.operatorToApply}}</a></b>
+
       <!-- add http://introtorx.com/Content/v1.0.10621.0/05_Filtering.html#SkipLastTakeLast -->
       <button mat-raised-button color="warn" (click)="obs.DeleteOperator(i)" *ngIf="obs.numberOperators>1">Delete</button>
   
