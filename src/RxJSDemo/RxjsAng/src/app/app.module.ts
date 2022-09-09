@@ -18,6 +18,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { OneObservableComponent } from './one-observable/one-observable.component';
 import { RouterModule } from '@angular/router';
+import {   MatStepperModule,} from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field'; 
+import {CdkStepperModule} from '@angular/cdk/stepper';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +32,10 @@ import { RouterModule } from '@angular/router';
     
   ],
   imports: [
+     MatExpansionModule,
+    CdkStepperModule,
+    MatFormFieldModule,
+    MatStepperModule,
     RouterModule,
     BrowserModule,
     HttpClientModule,

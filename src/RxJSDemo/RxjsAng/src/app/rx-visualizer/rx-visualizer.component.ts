@@ -162,7 +162,10 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     return msOrig;
   }
   constructGantt() {
-
+    if(this.data.length<1)
+      return;
+    if(this.data[0] == null)
+      return;
     var dt = this.data[0].RecTime;
     var h = this.with2Digits(dt.getHours()) + ":" + this.with2Digits(dt.getMinutes()) + ":" + this.with2Digits(dt.getSeconds());
 

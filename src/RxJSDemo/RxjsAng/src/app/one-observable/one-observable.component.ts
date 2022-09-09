@@ -13,7 +13,7 @@ import { KeyValuePairNumber, ListsService } from '../lists.service';
 })
 export class OneObservableComponent implements OnInit {
 
-  
+  public showVisualization:boolean=false;
   public sourceDatas= Object.values(SourceOfData);
   public operators = Object.values(OperatorsUnary);
   public obs: ObservableData = new ObservableData();
@@ -122,6 +122,7 @@ export class OneObservableComponent implements OnInit {
     this.obs.fromTextBox = fromEvent(this.searchBox, 'input')
       .pipe(share());
     ;
+    this.showVisualization=true;
     this.obs.start();
   }
   
