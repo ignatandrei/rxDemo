@@ -4,11 +4,14 @@ import { ExtraOptions, RouterModule, Routes, TitleStrategy } from '@angular/rout
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OneObservableComponent } from './one-observable/one-observable.component';
 import { TemplatePageTitleStrategy } from './classes/TitleStrategy';
+import { CombineObserverComponent } from './combine-observer/combine-observer.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, title: 'All Examples', },
   { path: 'dashboard/oneobserver',component: OneObservableComponent, title:"OneObservable"},
+  { path: 'dashboard/multipleObservers',component: CombineObserverComponent, title:"MultiObservers"},
+ 
   { path: 'dashboard/example/oneobserver/:exampleSource/:exampleId',component: OneObservableComponent}
 ];
 

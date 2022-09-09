@@ -22,6 +22,7 @@ import {   MatStepperModule,} from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { CombineObserverComponent } from './combine-observer/combine-observer.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     RxVisualizerComponent,
     DashboardComponent,
     OneObservableComponent,
+    CombineObserverComponent,
     
   ],
   imports: [
