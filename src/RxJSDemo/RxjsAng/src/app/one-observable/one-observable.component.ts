@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, fromEvent, share, tap } from 'rxjs';
 import { ObsDataSerializable } from '../classes/ObsDataSerializable';
@@ -13,10 +13,13 @@ import { KeyValuePairNumber, ListsService } from '../lists.service';
 })
 export class OneObservableComponent implements OnInit {
 
+  @Input()  
+  public obs: ObservableData = new ObservableData();
+  
+
   public showVisualization:boolean=false;
   public sourceDatas= Object.values(SourceOfData);
   public operators = Object.values(OperatorsUnary);
-  public obs: ObservableData = new ObservableData();
   public obsSer: ObsDataSerializable = new ObsDataSerializable();
   original: string = "original";
   operator: string = "operator";
@@ -123,8 +126,6 @@ export class OneObservableComponent implements OnInit {
    setTimeout(() => {
     this.searchBox.focus(); 
    }, 1000);
-   
-    
   }
   private constructAndStart(){
     this.obs.list = this.list;

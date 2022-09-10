@@ -49,7 +49,7 @@ export class ObsDataSerializable {
     this.setStringTextBox("switchMap",'{"source":"fromTextBox","numberOperators":1,"whatOperator":[{"operatorToApply":"switchMap","valueToApply":"4000","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}');
     this.setStringTextBox('full','{"source":"fromTextBox","numberOperators":3,"whatOperator":[{"operatorToApply":"debounceTime","valueToApply":"5000","functionToApply":"numberToTake"},{"operatorToApply":"distinctUntilChanged","valueToApply":"10"},{"operatorToApply":"switchMap","valueToApply":"2000","functionToApply":"countriesWithDelay"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}');
   
-    this.setStringFrom('startWith','{"source":"fromArrayData","numberOperators":1,"whatOperator":[{"operatorToApply":"startWith","valueToApply":"10","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2}}');
+    this.setStringFrom('startWith','{"source":"fromArrayData","numberOperators":1,"whatOperator":[{"operatorToApply":"startWith","valueToApply":"10","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2},"fromArrayData":{"StringToSplit":"Andrei,Ignat","delayBetweenMilliseconds":2000}}');
   }
   private setStringNumbers(name:string, value:string){
     this.DataNumberExample.set(name,ObservableData.fromJSON(value));

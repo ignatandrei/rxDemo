@@ -1,4 +1,4 @@
-import { map, Observable, TimeInterval, timeInterval } from "rxjs";
+import { map, Observable, Subject, tap, TimeInterval, timeInterval } from "rxjs";
 import { KeyValuePairNumber, ListsService } from "../lists.service";
 import { fromArray } from "./fromArray";
 import { exportNumbers } from "./obsNumbers";
@@ -11,7 +11,7 @@ export enum SourceOfData {
 }
 export class ObservableData {
 
-  
+  public subjectPiped : Subject<KeyValuePairNumber> = new Subject<KeyValuePairNumber>();
   //region operators
   public source = SourceOfData.none;
     fromTextBox: Observable<Event>;
@@ -39,7 +39,7 @@ export class ObservableData {
     this._numberOperators = value;
   }
   //endregion
-  constructor(o: ObservableData = null) {
+  constructor(o: Partial<ObservableData> = null) {
     if (o == null) {
       this.numberOperators = 1;
       return;
@@ -49,6 +49,7 @@ export class ObservableData {
     for (var i = 0; i < this.whatOperator.length; i++) {
       this.whatOperator[i] = new unaryOperators(this.whatOperator[i]);
     }
+    this.fromArrayData=new fromArray(this.fromArrayData);
     
   }
 
@@ -133,10 +134,11 @@ export class ObservableData {
       // console.log("applied " + op.operatorToApply);
     }
 
-    
+    // this.subjectPiped=new Subject<KeyValuePairNumber>();
     obs2.pipe(
       //timeInterval()
-      map(it=> new KeyValuePairNumber(it))
+      map(it=> new KeyValuePairNumber(it)),
+      tap(it=> this.subjectPiped.next(it))
     ).subscribe(
       {
         next: (it: KeyValuePairNumber) => {
@@ -144,7 +146,7 @@ export class ObservableData {
         }
         ,
         complete: () => {
-
+          this.subjectPiped.complete();
           var c = new KeyValuePairNumber();
           c.key = this.dataForOneOperator.length + 1;
           c.finish = true;
@@ -192,6 +194,7 @@ export class ObservableData {
     json["numberOperators"] = this.numberOperators;
     json["whatOperator"] = this.whatOperator;
     json["startNumbers"] = this.startNumbers;
+    json["fromArrayData"]= this.fromArrayData;
     return JSON.stringify(json);
   }
 
