@@ -1,11 +1,13 @@
 import { map, Observable, TimeInterval, timeInterval } from "rxjs";
 import { KeyValuePairNumber, ListsService } from "../lists.service";
+import { fromArray } from "./fromArray";
 import { exportNumbers } from "./obsNumbers";
 import { unaryOperators } from "./unaryOperators";
 export enum SourceOfData {
   none= '',
   netCoreGetNumbers = 'netCoreGetNumbers',
-  fromTextBox='fromTextBox'
+  fromTextBox='fromTextBox',
+  fromArrayData = 'fromArrayData'
 }
 export class ObservableData {
 
@@ -52,9 +54,17 @@ export class ObservableData {
 
   public whatOperator: unaryOperators[] = [];
   public startNumbers: exportNumbers = new exportNumbers();
+  public fromArrayData: fromArray=new fromArray();
   public dataFor: KeyValuePairNumber[] = [];
   public dataForOneOperator: KeyValuePairNumber[] = [];
   public list: ListsService;
+  private startFromArrayData() {
+    console.log(this.fromArrayData);
+    this.startWithObs(
+      this.fromArrayData.obs(),
+      this.fromArrayData.obs()
+    );
+  }
   private startNetCoreNumbers() {
     this.startWithObs(
       this.list.GetNumbersObservable(this.startNumbers.fromNumber, this.startNumbers.count, this.startNumbers.repeat, this.startNumbers.delaySec * 1000),
@@ -164,6 +174,12 @@ export class ObservableData {
         return;
       case SourceOfData.fromTextBox:
         this.startFromTextBoxWithFullText();
+        return;
+      case SourceOfData.fromArrayData:
+        this.startFromArrayData();
+        return;
+      default:
+        window.alert("not existing "+ this.source);
     }
     
     ;

@@ -4,8 +4,22 @@
       <mat-panel-title> Examples </mat-panel-title>
       <mat-panel-description> Numbers, TextBox </mat-panel-description>
     </mat-expansion-panel-header>
+
+    <button mat-raised-button color="primary" [matMenuTriggerFor]="menuFrom">
+      Click for examples array data
+    </button>
+    <mat-menu #menuFrom="matMenu">
+      <span *ngFor="let d of obsSer.sortKeysFrom; let i = index">
+        <button mat-menu-item (click)="loadExampleFrom(d)">
+          {{ i + 1 }}){{ d }}
+        </button>
+      </span>
+    </mat-menu>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
     <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">
-      Click for examples with numbers
+      Click for examples with API numbers
     </button>
 
     <mat-menu #menu="matMenu">
@@ -18,7 +32,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;
 
     <button mat-raised-button color="primary" [matMenuTriggerFor]="menuText">
-      Click for examples with textbox
+      Click for examples with textbox input
     </button>
     <mat-menu #menuText="matMenu">
       <span *ngFor="let d of obsSer.sortKeysTextBox; let i = index">
@@ -27,6 +41,8 @@
         </button>
       </span>
     </mat-menu>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+
   </mat-expansion-panel>
 
   <mat-expansion-panel>
@@ -48,13 +64,18 @@
           [hidden]="!(obs.source == 'fromTextBox')"
           placeholder="put some text here"
         />
-
         <div [hidden]="!(obs.source == 'netCoreGetNumbers')">
-          From a list of observable (numbers) from
+          Please put list
           <input [(ngModel)]="obs.startNumbers.fromNumber" /> count
           <input [(ngModel)]="obs.startNumbers.count" /> repeat
           <input [(ngModel)]="obs.startNumbers.repeat" /> delay
           <input [(ngModel)]="obs.startNumbers.delaySec" />
+        </div>
+
+        <div [hidden]="!(obs.source == 'fromArrayData')">
+          From my data
+          <input [(ngModel)]="obs.fromArrayData.StringToSplit" /> delay
+          <input [(ngModel)]="obs.fromArrayData.delayBetweenMilliseconds" /> 
         </div>
       </mat-step>
 
@@ -127,8 +148,8 @@
         </div>
       </mat-step>
 
-      <mat-step label="Start">
-        API URL: {{ urlAPI }}
+      <mat-step label="Finish=>">
+        {{ urlAPI }}
         <br />
 
         <button mat-raised-button color="primary" (click)="start()">

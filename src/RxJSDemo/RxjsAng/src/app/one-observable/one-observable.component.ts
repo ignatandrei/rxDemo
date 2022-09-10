@@ -60,11 +60,14 @@ export class OneObservableComponent implements OnInit {
   public get urlAPI(){
     switch(this.obs.source){
       case SourceOfData.netCoreGetNumbers:
-        return this.list.urlNumbers(this.obs.startNumbers.fromNumber, this.obs.startNumbers.count, this.obs.startNumbers.repeat, this.obs.startNumbers.delaySec * 1000);
+        return "example:" +this.list.urlNumbers(this.obs.startNumbers.fromNumber, this.obs.startNumbers.count, this.obs.startNumbers.repeat, this.obs.startNumbers.delaySec * 1000);
       case SourceOfData.fromTextBox:
           return "example:"+this.list.urlCountries("ro", 2000);
   
-        default:
+      case SourceOfData.fromArrayData:
+        return "example:" + this.obs.fromArrayData.StringToSplit;
+  
+      default:
         window.alert(`please add ${this.obs.source}`);
     }
 
@@ -104,6 +107,13 @@ export class OneObservableComponent implements OnInit {
     this.obs = new ObservableData(this.obsSer.NumberData(k));
    this.constructAndStart();
     
+  }
+  public loadExampleFrom(k: string){
+    this.exampleID = k;
+    this.exampleSource= this.obs.source;
+    this.obs = new ObservableData(this.obsSer.FromData(k));
+   this.constructAndStart();
+
   }
   public loadExampleTextBox(k: string) {
     this.exampleID = k;
