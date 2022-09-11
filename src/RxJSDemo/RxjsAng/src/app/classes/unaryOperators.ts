@@ -205,7 +205,7 @@ export class unaryOperators {
     }
   }
   static lastNumber=-100;
-  private static getNewKVP(value: string): KeyValuePairNumber {
+  public static getNewKVP(value: string): KeyValuePairNumber {
     var kvp = new KeyValuePairNumber();
     kvp.key = unaryOperators.lastNumber--;
     kvp.value = value;

@@ -25,6 +25,9 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     securityLevel: 'loose',
   };
 
+  @Input()
+  numberObservables: number = 2;
+
 
   @Input()
   rxName: string = "";
@@ -33,10 +36,16 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
   rxName2: string = "";
 
   @Input()
+  rxName3: string = "";
+
+  @Input()
   data: KeyValuePairNumber[] = [];
 
   @Input()
-  dataPiped: KeyValuePairNumber[] = [];
+  data2: KeyValuePairNumber[] = [];
+
+  @Input()
+  data3: KeyValuePairNumber[] = [];
 
   constructor() { }
   nr = 0;
@@ -79,18 +88,32 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     const element: any = this.mermaidDiv.nativeElement;
     var graphDefinition = 'graph LR ' + '\r\n';
     graphDefinition = 'flowchart LR' + '\r\n';
+    if(this.numberObservables == 3){
+      graphDefinition += "subgraph "+ this.rxName3 + '\r\n';
+      graphDefinition += "direction LR" + '\r\n';
+      // console.log(this.data.length);
+      // console.log(this.data);
+      graphDefinition += this.mermaindNodes(this.data3, "third");
+      graphDefinition += "end" + '\r\n';
+        
+    }
     graphDefinition += "subgraph "+ this.rxName2 + '\r\n';
     graphDefinition += "direction LR" + '\r\n';
     // console.log(this.data.length);
     // console.log(this.data);
-    graphDefinition += this.mermaindNodes(this.dataPiped, "piped");
+    graphDefinition += this.mermaindNodes(this.data2, "piped");
     graphDefinition += "end" + '\r\n';
     graphDefinition += "subgraph "+ this.rxName + '\r\n';
     graphDefinition += "direction LR" + '\r\n';
     // console.log(this.data.length);
     // console.log(this.data);
     graphDefinition += this.mermaindNodes(this.data, "orig");
+    
+    
     graphDefinition += "end" + '\r\n';
+
+
+
 
     //id1([This is the text in the box])
     //    graphDefinition = `gantt 
@@ -117,16 +140,16 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.dataPiped.length > 0) {
-      this.dataPiped[0].value = "Start"+this.rxName2;
-    }
+    // if (this.data2.length > 0) {
+    //   this.data2[0].value = "Start"+this.rxName2;
+    // }
     this.constructMermaind();
-    var b = (this.data.findIndex(it => it.finish === true, 0) > 0) && (this.dataPiped.findIndex(it => it.finish === true, 0) > 0);
+    var b = (this.data.findIndex(it => it.finish === true, 0) > 0) && (this.data2.findIndex(it => it.finish === true, 0) > 0);
     //if (b)
     {
       // console.log('done ' + b);
       // console.log(this.data);
-      // console.log(this.dataPiped);
+      // console.log(this.data2);
       this.constructGantt();
     }
 
@@ -173,7 +196,11 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     var h = this.with2Digits(dt.getHours()) + ":" + this.with2Digits(dt.getMinutes()) + ":" + this.with2Digits(dt.getSeconds());
 
     var msOrig = this.constructGanntFromData(new Date(dt),this.data);
-    var msPiped = this.constructGanntFromData(new Date(dt) ,this.dataPiped);
+    var msPiped = this.constructGanntFromData(new Date(dt) ,this.data2);
+    var ms3='';
+    if(this.numberObservables == 3){
+      ms3 = this.constructGanntFromData(new Date(dt),this.data3);
+    }
 //    var graphDefinition = `gantt
 //dateFormat HH:mm:ss
 //axisFormat %H:%M:%S
@@ -188,9 +215,9 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
 //Andrei9 : milestone, m1, 17:50:33,1sec
 //`;
     // var durOrig = this.data.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
-    // var durPipe = this.dataPiped.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
+    // var durPipe = this.data2.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
     var durOrig =this.data[this.data.length-1].RecTime.getTime()-this.data[0].RecTime.getTime();
-    var durPipe=this.dataPiped[this.dataPiped.length-1].RecTime.getTime()-this.dataPiped[0].RecTime.getTime();
+    var durPipe=this.data2[this.data2.length-1].RecTime.getTime()-this.data2[0].RecTime.getTime();
     ;
     var maxDur = durOrig > durPipe ? durOrig : durPipe;
     if(maxDur % 2 == 1)
@@ -207,6 +234,9 @@ section  Separator
 Separator           :a1, ${h}, ${maxDur}sec
 section  Piped
 ${msPiped}
+section  Separator
+Separator           :a1, ${h}, ${maxDur}sec
+${ms3}
 `;
 
     // console.log(graphDefinition);
