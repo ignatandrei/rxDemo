@@ -145,7 +145,9 @@ return [firstObs,secondObs];
     this.finishAndStart();
     
   }
-  
+  public get urlApi():string{
+    return "https://rxjs.dev/api/index/function/"+ this.combineName;
+  }
   public zipOperation(){
     
     this.combineName="forkJoin";
