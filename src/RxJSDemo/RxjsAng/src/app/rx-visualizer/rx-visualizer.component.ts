@@ -200,6 +200,10 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
       return;
     if(this.data[0] == null)
       return;
+    if(this.data[0] == undefined)
+      return;
+    console.log('asd');
+    console.log('asd',this.data[0].RecTime);  
     var dt = this.data[0].RecTime;
     var h = this.with2Digits(dt.getHours()) + ":" + this.with2Digits(dt.getMinutes()) + ":" + this.with2Digits(dt.getSeconds());
 
@@ -228,7 +232,9 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     // var durOrig = this.data.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
     // var durPipe = this.data2.reduce((accumVariable, curValue) => accumVariable + curValue.interval, 0);
     var durOrig =this.data[this.data.length-1].RecTime.getTime()-this.data[0].RecTime.getTime();
-    var durPipe=this.data2[this.data2.length-1].RecTime.getTime()-this.data2[0].RecTime.getTime();
+    var durPipe = durOrig;
+    if(this.data2.length>0)
+       durPipe=this.data2[this.data2.length-1].RecTime.getTime()-this.data2[0].RecTime.getTime();
     ;
     var maxDur = durOrig > durPipe ? durOrig : durPipe;
     if(maxDur % 2 == 1)
