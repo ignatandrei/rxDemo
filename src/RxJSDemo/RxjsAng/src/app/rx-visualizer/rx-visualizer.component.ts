@@ -30,6 +30,9 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
   rxName: string = "";
 
   @Input()
+  rxName2: string = "";
+
+  @Input()
   data: KeyValuePairNumber[] = [];
 
   @Input()
@@ -76,13 +79,13 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     const element: any = this.mermaidDiv.nativeElement;
     var graphDefinition = 'graph LR ' + '\r\n';
     graphDefinition = 'flowchart LR' + '\r\n';
-    graphDefinition += "subgraph piped" + '\r\n';
+    graphDefinition += "subgraph "+ this.rxName2 + '\r\n';
     graphDefinition += "direction LR" + '\r\n';
     // console.log(this.data.length);
     // console.log(this.data);
     graphDefinition += this.mermaindNodes(this.dataPiped, "piped");
     graphDefinition += "end" + '\r\n';
-    graphDefinition += "subgraph original" + '\r\n';
+    graphDefinition += "subgraph "+ this.rxName + '\r\n';
     graphDefinition += "direction LR" + '\r\n';
     // console.log(this.data.length);
     // console.log(this.data);
@@ -115,7 +118,7 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.dataPiped.length > 0) {
-      this.dataPiped[0].value = "StartPipe";
+      this.dataPiped[0].value = "Start"+this.rxName2;
     }
     this.constructMermaind();
     var b = (this.data.findIndex(it => it.finish === true, 0) > 0) && (this.dataPiped.findIndex(it => it.finish === true, 0) > 0);
@@ -198,7 +201,7 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     var graphDefinition = `gantt
 dateFormat HH:mm:ss
 axisFormat %H:%M:%S
-section Original
+section ${this.rxName}
 ${msOrig}
 section  Separator
 Separator           :a1, ${h}, ${maxDur}sec

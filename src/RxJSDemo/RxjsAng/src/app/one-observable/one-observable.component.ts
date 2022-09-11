@@ -16,8 +16,8 @@ export class OneObservableComponent implements OnInit {
   @Input()  
   public obs: ObservableData = new ObservableData();
   
-
-  public showVisualization:boolean=false;
+  public expandVisualization:boolean=false;
+  public showVisualization:boolean=true;
   public sourceDatas= Object.values(SourceOfData);
   public operators = Object.values(OperatorsUnary);
   public obsSer: ObsDataSerializable = new ObsDataSerializable();
@@ -133,7 +133,7 @@ export class OneObservableComponent implements OnInit {
     this.obs.fromTextBox = fromEvent(this.searchBox, 'input')
       .pipe(share());
     ;
-    this.showVisualization=true;
+    this.expandVisualization=true;
     this.obs.start();
   }
   

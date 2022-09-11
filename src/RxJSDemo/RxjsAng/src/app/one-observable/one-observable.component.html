@@ -173,14 +173,15 @@
     </mat-horizontal-stepper>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [expanded]="showVisualization">
+  <mat-expansion-panel [expanded]="expandVisualization" *ngIf="showVisualization">
     <mat-expansion-panel-header>
       <mat-panel-title> Visualization </mat-panel-title>
       <mat-panel-description> show original and piped</mat-panel-description>
     </mat-expansion-panel-header>
 
     <app-rx-visualizer
-    [rxName]="original"
+    [rxName]="'original'"
+    [rxName2]="'piped'"
     [data]="obs.dataFor"
     [dataPiped]="obs.dataForOneOperator"
   ></app-rx-visualizer>
