@@ -34,8 +34,8 @@ export class CombineObserverComponent implements OnInit, AfterViewInit {
 
   private mergeOperation(){
     this.combineName="merge";
-    var f=ObservableData.fromJSON('{"source":"fromArrayData","numberOperators":1,"whatOperator":[{"operatorToApply":"startWith","valueToApply":"10","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2},"fromArrayData":{"StringToSplit":"Andrei,Ignat","delayBetweenMilliseconds":2000}}') ;
-    var s=ObservableData.fromJSON('{"source":"fromArrayData","numberOperators":1,"whatOperator":[{"operatorToApply":"startWith","valueToApply":"100","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2},"fromArrayData":{"StringToSplit":"1,2,3,4,5,6,7","delayBetweenMilliseconds":1000}}')    
+    var f=ObservableData.fromJSON('{"source":"fromArrayData","numberOperators":1,"whatOperator":[{"operatorToApply":"startWith","valueToApply":"10","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2},"fromArrayData":{"StringToSplit":"Andrei,Ignat","delayBetweenMilliseconds":3000}}') ;
+    var s=ObservableData.fromJSON('{"source":"fromArrayData","numberOperators":1,"whatOperator":[{"operatorToApply":"startWith","valueToApply":"100","functionToApply":"numberToTake"}],"startNumbers":{"fromNumber":2,"count":7,"repeat":1,"delaySec":2},"fromArrayData":{"StringToSplit":"1,2,3,4,5,6,7","delayBetweenMilliseconds":2000}}')    
     
     this.first.obs =new ObservableData(f);
     this.second.obs =new ObservableData(s);

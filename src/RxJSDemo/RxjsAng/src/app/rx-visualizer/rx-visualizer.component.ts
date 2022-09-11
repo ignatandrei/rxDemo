@@ -49,7 +49,15 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
 
   constructor() { }
   nr = 0;
-  private mermaindNodes(dataArr: KeyValuePairNumber[], name: string) {
+  private mermaindNodes(dataArrOrig: KeyValuePairNumber[], name: string) {
+    var dataArr = dataArrOrig.map((it,index)=>
+      {
+      var newKVP = new KeyValuePairNumber(it);
+      newKVP.RecTime =it.RecTime;
+      newKVP.key = index;
+      return newKVP;
+      }
+      );
     var str = "";
     if (dataArr.length == 0) {
       str += 'id((NoData))' + '\r\n';
