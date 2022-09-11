@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { combineLatest, endWith, forkJoin, map, merge, Observable, race, startWith, tap } from 'rxjs';
+import { combineLatest, concat, endWith, forkJoin, map, merge, Observable, race, startWith, tap, zip } from 'rxjs';
 import { ObservableData } from '../classes/ObservableData';
 import { unaryOperators } from '../classes/unaryOperators';
 import { KeyValuePairNumber } from '../lists.service';
@@ -123,6 +123,39 @@ return [firstObs,secondObs];
       firstObs,
       secondObs,
     ).pipe(
+      tap(it=>this.data3= [...this.data3,it]),
+    );
+
+    this.finishAndStart();
+    
+  }
+  public forkJoinOperation(){
+    
+    this.combineName="forkJoin";
+    var [firstObs,secondObs] = this.restart();
+    
+
+    this.obs = forkJoin([firstObs,secondObs]
+    ).pipe(
+      map(([a,b])=> unaryOperators.getNewKVP(a.value + " "+ b.value)),
+
+      tap(it=>this.data3= [...this.data3,it]),
+    );
+
+    this.finishAndStart();
+    
+  }
+  
+  public zipOperation(){
+    
+    this.combineName="forkJoin";
+    var [firstObs,secondObs] = this.restart();
+    
+
+    this.obs = zip([firstObs,secondObs]
+    ).pipe(
+      map(([a,b])=> unaryOperators.getNewKVP(a.value + " "+ b.value)),
+
       tap(it=>this.data3= [...this.data3,it]),
     );
 
