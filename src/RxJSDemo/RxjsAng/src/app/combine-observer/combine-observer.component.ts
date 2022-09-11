@@ -145,12 +145,17 @@ return [firstObs,secondObs];
     this.finishAndStart();
     
   }
-  public get urlApi():string{
+  public get urlApi1():string{
     return "https://rxjs.dev/api/index/function/"+ this.combineName;
   }
+
+  public get urlApi2():string{
+    return "https://rxmarbles.com/#"+ this.combineName;
+  }
+
   public zipOperation(){
     
-    this.combineName="forkJoin";
+    this.combineName="zip";
     var [firstObs,secondObs] = this.restart();
     
 

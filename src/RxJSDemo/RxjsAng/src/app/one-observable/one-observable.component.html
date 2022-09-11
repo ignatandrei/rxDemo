@@ -118,13 +118,20 @@
             *ngIf="op.functionsFromOperator(op.operatorToApply).length > 0"
           />
           The RXJS is
-          <b
-            ><a
+          <b><a
               target="_blank"
               href="https://rxjs.dev/api/operators/{{ op.operatorToApply }}"
               >Documentation {{ op.operatorToApply }}</a
             ></b
           >
+          or
+          <b><a
+            target="_blank"
+            href="https://rxmarbles.com/#{{
+              op.operatorToApply
+            }}"
+            >marbles{{ op.operatorToApply }}</a
+          ></b>
           or
           <b
             ><a
@@ -132,7 +139,7 @@
               href="https://indepth.dev/reference/rxjs/operators/{{
                 op.operatorToApply
               }}"
-              >Resource {{ op.operatorToApply }}</a
+              >depth {{ op.operatorToApply }}</a
             ></b
           >
 
