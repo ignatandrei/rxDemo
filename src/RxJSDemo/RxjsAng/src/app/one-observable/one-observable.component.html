@@ -1,5 +1,5 @@
 <mat-accordion class="example-headers-align" multi>
-  <mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel [expanded]="isExpanded(ExpandVisualization.examples)">
     <mat-expansion-panel-header>
       <mat-panel-title> Examples </mat-panel-title>
       <mat-panel-description> Numbers, TextBox </mat-panel-description>
@@ -173,7 +173,7 @@
     </mat-horizontal-stepper>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [expanded]="expandVisualization" *ngIf="showVisualization">
+  <mat-expansion-panel [expanded]="isExpanded(ExpandVisualization.visualization)" *ngIf="showVisualization">
     <mat-expansion-panel-header>
       <mat-panel-title> Visualization </mat-panel-title>
       <mat-panel-description> show original and piped</mat-panel-description>

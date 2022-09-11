@@ -50,7 +50,9 @@ export class ObservableData {
       this.whatOperator[i] = new unaryOperators(this.whatOperator[i]);
     }
     this.fromArrayData=new fromArray(this.fromArrayData);
-    
+  }
+  public restartSubject(){
+    this.subjectPiped=new Subject<KeyValuePairNumber>();
   }
 
   public whatOperator: unaryOperators[] = [];

@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, title: 'All Examples', },
   { path: 'dashboard/oneobserver',component: OneObservableComponent, title:"OneObservable"},
-  { path: 'dashboard/multipleObservers',component: CombineObserverComponent, title:"MultiObservers"},
+  { path: 'dashboard/twoObservers',component: CombineObserverComponent, title:"MultiObservers"},
  
   { path: 'dashboard/example/oneobserver/:exampleSource/:exampleId',component: OneObservableComponent}
 ];

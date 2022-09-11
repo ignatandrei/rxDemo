@@ -208,6 +208,9 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     var ms3='';
     if(this.numberObservables == 3){
       ms3 = this.constructGanntFromData(new Date(dt),this.data3);
+      ms3 = `section  ${this.rxName3}
+      ${ms3}
+      `;
     }
 //    var graphDefinition = `gantt
 //dateFormat HH:mm:ss
@@ -236,18 +239,20 @@ export class RxVisualizerComponent implements OnInit, AfterViewInit, OnChanges {
     var graphDefinition = `gantt
 dateFormat HH:mm:ss
 axisFormat %H:%M:%S
+section  Separator1
+Separator           :a1, ${h}, ${maxDur}sec
 section ${this.rxName}
 ${msOrig}
-section  Separator
+section  Separator2
 Separator           :a1, ${h}, ${maxDur}sec
-section  Piped
+section  ${this.rxName2}
 ${msPiped}
-section  Separator
+section  Separator3
 Separator           :a1, ${h}, ${maxDur}sec
 ${ms3}
 `;
 
-    // console.log(graphDefinition);
+    console.log(graphDefinition);
     const element: any = this.mermaidGanntDiv.nativeElement;
 
     

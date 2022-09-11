@@ -5,7 +5,7 @@ import { ObsDataSerializable } from '../classes/ObsDataSerializable';
 import { ObservableData, SourceOfData } from '../classes/ObservableData';
 import { OperatorsUnary } from '../classes/unaryOperators';
 import { KeyValuePairNumber, ListsService } from '../lists.service';
-
+import { ExpandVisualization } from './ExpandVisualization';
 @Component({
   selector: 'app-one-observable',
   templateUrl: './one-observable.component.html',
@@ -16,7 +16,7 @@ export class OneObservableComponent implements OnInit {
   @Input()  
   public obs: ObservableData = new ObservableData();
   
-  public expandVisualization:boolean=false;
+  public expandVisualization:ExpandVisualization=ExpandVisualization.examples;
   public showVisualization:boolean=true;
   public sourceDatas= Object.values(SourceOfData);
   public operators = Object.values(OperatorsUnary);
@@ -133,8 +133,17 @@ export class OneObservableComponent implements OnInit {
     this.obs.fromTextBox = fromEvent(this.searchBox, 'input')
       .pipe(share());
     ;
-    this.expandVisualization=true;
+    if(this.showVisualization)
+      this.expandVisualization=ExpandVisualization.visualization;
     this.obs.start();
   }
+
+  public isExpanded(exp:ExpandVisualization): boolean{
+    if(exp == ExpandVisualization.None)
+      return false;
+
+    return  (this.expandVisualization & exp) == exp;
+  }
+  public ExpandVisualization=ExpandVisualization;
   
 }
