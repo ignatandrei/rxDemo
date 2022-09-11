@@ -18,7 +18,8 @@ import {
   of,
   retry,
   skipWhile,
-  switchMap
+  switchMap,
+  last
 } from 'rxjs';
 import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
 import { KeyValuePairNumber, ListsService } from '../lists.service';
@@ -203,13 +204,15 @@ export class unaryOperators {
         return obs;
     }
   }
+  static lastNumber=-100;
   private static getNewKVP(value: string): KeyValuePairNumber {
     var kvp = new KeyValuePairNumber();
-    kvp.key = -100;
+    kvp.key = unaryOperators.lastNumber--;
     kvp.value = value;
     return kvp;
     //return {interval:0,value: kvp};
   }
+  
   public functionsFromOperator(operatorToApply: OperatorsUnary): string[] {
     switch (operatorToApply) {
       case OperatorsUnary.ChangeValues:
