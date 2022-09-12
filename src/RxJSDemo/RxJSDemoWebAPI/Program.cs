@@ -1,4 +1,5 @@
 using AMSWebAPI;
+using NetCore2BlocklyNew;
 using RxJSData;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,8 @@ var app = builder.Build();
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseBlocklyUI(app.Environment);
+
 }
 
 app.UseDefaultFiles();
@@ -28,4 +31,5 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapFallbackToFile("rxjsAng/{*path:nonfile}", "/rxjsAng/index.html");
 app.UseAMS();
+app.UseBlocklyAutomation();
 app.Run();
