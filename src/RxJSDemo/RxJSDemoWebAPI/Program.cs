@@ -1,3 +1,4 @@
+using AMSWebAPI;
 using RxJSData;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,5 +27,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapFallbackToFile("rxjsAng/{*path:nonfile}", "/rxjsAng/index.html");
-
+app.UseAMS();
 app.Run();
