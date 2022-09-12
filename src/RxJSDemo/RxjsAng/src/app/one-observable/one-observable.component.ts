@@ -72,6 +72,7 @@ export class OneObservableComponent implements OnInit {
   
       default:
         window.alert(`please add ${this.obs.source}`);
+        throw (`please add ${this.obs.source}`);
     }
 
   }
